@@ -63,7 +63,7 @@ const Basic = () => {
   const fetchWords = async () => {
     try {
       setLoading(true);
-      const response = await fetch("http://localhost:2002/api/data/vocGET/level?level=basic");
+      const response = await fetch("https://voacabulary-website-back-end-2.onrender.com/api/data/vocGET/level?level=basic");
       const data = await response.json();
       setWords(data);
       setFilteredWords(data);
@@ -153,7 +153,7 @@ const Basic = () => {
     } else {
       setPlayingAudio(word._id);
       if (word.audio) {
-        const audio = new Audio(`http://localhost:2002/${word.audio}`);
+        const audio = new Audio(`https://voacabulary-website-back-end-2.onrender.com/${word.audio}`);
         audio.play();
         audio.onended = () => setPlayingAudio(null);
       }
@@ -194,7 +194,7 @@ const Basic = () => {
     <div className={`min-h-screen transition-colors duration-300 ${darkMode ? 'dark bg-gray-900' : 'bg-gradient-to-b from-indigo-50 to-white'}`}>
       <Helmet>
         <title>Basic</title>
-        
+        <meta name="description" content="Learn basic English vocabulary with Bangla meaning, pronunciation and examples." />
       </Helmet>
       {/* হেডার */}
       <div className={`sticky top-20 z-30 backdrop-blur-md shadow-sm py-3 transition-colors duration-300 ${
