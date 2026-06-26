@@ -69,7 +69,7 @@ const Login = () => {
 
   const loginUser = async (userData) => {
     try {
-      const response = await fetch('http://localhost:2002/api/users/login', {
+      const response = await fetch('https://voacabulary-website-back-end-2.onrender.com/api/users/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -127,6 +127,7 @@ const Login = () => {
       {/* ব্যাকগ্রাউন্ড অ্যানিমেশন */}
       <Helmet>
         <title>লগইন</title>
+        <meta name="description" content="লগইন করুন এবং আপনার ইংরেজি শব্দকোষ উন্নয়ন করুন" />
       </Helmet>
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-indigo-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>

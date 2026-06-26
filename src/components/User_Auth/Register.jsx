@@ -110,7 +110,7 @@ const Register = () => {
   // API তে ডাটা পাঠানোর ফাংশন
   const registerUser = async (userData) => {
     try {
-      const response = await fetch('http://localhost:2002/api/users/register', {
+      const response = await fetch('https://voacabulary-website-back-end-2.onrender.com/api/users/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -182,7 +182,7 @@ const Register = () => {
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 flex items-center justify-center p-4">
       <Helmet>
         <title>রেজিস্টার</title>
-        
+        <meta name="description" content="নতুন অ্যাকাউন্ট তৈরি করুন এবং আপনার ইংরেজি শব্দকোষ উন্নয়ন করুন" />
       </Helmet>
       {/* ব্যাকগ্রাউন্ড অ্যানিমেশন */}
       <div className="absolute inset-0 overflow-hidden">
