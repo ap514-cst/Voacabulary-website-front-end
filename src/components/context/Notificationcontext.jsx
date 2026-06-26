@@ -11,7 +11,15 @@ export const NotificationProvider = ({ children }) => {
 
   useEffect(() => {
     // Connect to Socket.io server
-    const socket = io('https://voacabulary-website-back-end-2.onrender.com');
+   const socket = io(
+  "https://voacabulary-website-back-end-2.onrender.com",
+  {
+    transports: ["websocket"],
+    reconnection: true,
+    reconnectionAttempts: 5,
+    reconnectionDelay: 1000,
+  }
+);
 
     socket.on('new-word', (data) => {
       // Add new notification at the top
