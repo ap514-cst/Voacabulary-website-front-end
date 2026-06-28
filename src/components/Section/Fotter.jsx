@@ -37,7 +37,7 @@ const Footer = () => {
         { name: 'বেসিক লেভেল', path: '/basic' },
         { name: 'ইন্টারমিডিয়েট লেভেল', path: '/inter' },
         { name: 'অ্যাডভান্সড লেভেল', path: '/advanced' },
-        { name: 'সংখ্যা শিখুন', path: '/numbers' },
+        { name: 'সংখ্যা শিখুন', path: '/number' },
         { name: 'ইরেগুলার ভার্ব', path: '/irregular' }
       ]
     },
@@ -138,7 +138,7 @@ const Footer = () => {
               </div>
               <div>
                 <p className="text-sm text-gray-400">ফোন</p>
-                <p className="text-sm font-medium">+880 1234 567890</p>
+                <p className="text-sm font-medium">+880 1630795443</p>
               </div>
             </div>
             <div className="flex items-center gap-3">
@@ -158,6 +158,9 @@ const Footer = () => {
           <p className="text-gray-400 text-sm">
             &copy; {currentYear} ভোকাবুলারি. সমস্ত অধিকার সংরক্ষিত।
           </p>
+          <div>
+            <p className='text-cyan-600'><u><a href="">Develop by Apu Mojumder</a></u></p>
+          </div>
           <div className="flex flex-wrap justify-center gap-6">
             <Link to="/about" className="text-gray-400 hover:text-indigo-400 text-sm transition-colors flex items-center gap-1">
               <Heart className="w-3 h-3" />

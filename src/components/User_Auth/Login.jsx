@@ -2,6 +2,8 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import {useGoogleLogin}from '@react-oauth/google';
+import { FaGoogle } from 'react-icons/fa'; 
 import { 
   LogIn, 
   Mail, 
@@ -11,7 +13,8 @@ import {
   BookOpen,
   ArrowRight,
   AlertCircle,
-  CheckCircle
+  CheckCircle,
+  
 } from 'lucide-react';
 import { useAuth } from '../AuthContext/AuthContext';
 import { Helmet } from 'react-helmet-async';
@@ -22,6 +25,20 @@ const Login = () => {
   const { login } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   
+  //google login 
+  const responseGoogle=async(authResult)=>{
+    try{
+        console.log(authResult)
+    }catch(error){
+      console.error('Google login error:', error);
+    }
+  }
+  const handleGoogleLogin=useGoogleLogin({
+    onSuccess: responseGoogle,
+    onError: responseGoogle,
+    flow:'auth-code'
+  });
+
   // ✅ Get the page user was trying to visit (or default to '/')
   const from = location.state?.from?.pathname || '/';
   
@@ -292,6 +309,17 @@ const Login = () => {
                   <span>লগইন করুন</span>
                 </>
               )}
+            </motion.button>
+
+            {/*google login button */}
+            <motion.button
+              type="button"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="w-full border border-gray-300 text-gray-700 py-3 rounded-lg font-semibold shadow hover:shadow-xl transition-all flex items-center justify-center gap-2"
+            >
+              <FaGoogle className="w-5 h-5" />
+              <span onClick={handleGoogleLogin}>Google দিয়ে লগইন করুন</span>
             </motion.button>
 
             {/* রেজিস্টার লিংক */}

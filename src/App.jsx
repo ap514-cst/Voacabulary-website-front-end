@@ -27,12 +27,22 @@ import About from './components/Policy/About';
 import PrivacyPolicy from './components/Policy/Privacypolicy';
 import Contact from './components/Policy/Contact';
 import Grammar from './components/Section/Garmmer';
-
+import {GoogleOAuthProvider}from '@react-oauth/google';
+import ErrorHandla from './components/ErrorPage/ErrorHandla';
+import Profile_body from './components/Profile_Section/Profile_body';
 
  
             
 
 function App() {
+  const GoogleAuthWrapper=()=>{
+    return (
+      <GoogleOAuthProvider clientId='946839756651-ee2qm7eft0f77hg522jpbgvhreoefbi5.apps.googleusercontent.com' >
+      <Login/>
+    </GoogleOAuthProvider>
+    )
+    
+  }
   return (
     <HelmetProvider>
     <Router>
@@ -41,13 +51,16 @@ function App() {
           <Navbar />
           <Routes>
             <Route path='/'element={<Home/>}/>
-            <Route path='/login' element={<Login/>}/>
+            <Route path='/login' element={<GoogleAuthWrapper/>}/>
             <Route path='/register' element={<Register/>}/>
             <Route path='/word/:word' element={<WordDetails/>}/>
             <Route path="/terms" element={<TermsConditions/>}/>
             <Route path='/about' element={<About/>}/>
             <Route path='/privacy-policy' element={<PrivacyPolicy/>}/>
             <Route path='/contact' element={<Contact/>}/>
+            <Route path='/*' element={
+            <ErrorHandla/>
+          }/>
             <Route path='/basic' element={
               <ProtctedRoute>
                 <BasicList/>
@@ -122,7 +135,14 @@ function App() {
                 <Grammar/>
               </ProtctedRoute>
             }/>
+
+             <Route path='/profile' element={<ProtctedRoute>
+            <Profile_body/>
+          </ProtctedRoute>}/>
+          
           </Routes>
+         
+          
         </NotificationProvider>
       </AuthProvider>
     </Router>

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Menu, 
-  X, 
+import {
+  Menu,
+  X,
   BookOpen,
   LogIn,
   UserPlus,
@@ -47,22 +47,22 @@ const Navbar = () => {
   // নেভিগেশন আইটেম
   const navItems = [
     { name: 'হোম', path: '/', icon: Home },
-    { 
-      name: 'শুরু করুন', 
+    {
+      name: 'শুরু করুন',
       icon: BookOpen,
       dropdown: true,
-      guard:true,
+      guard: true,
       items: [
-        { name: 'বেসিক', path: '/basic', icon: BookOpen, color: 'green',guard:true },
-        { name: 'ইন্টারমিডিয়েট', path: '/inter', icon: TrendingUp, color: 'blue',guard:true  },
-        { name: 'অ্যাডভান্সড', path: '/advanced', icon: Award, color: 'purple',guard:true  }
+        { name: 'বেসিক', path: '/basic', icon: BookOpen, color: 'green', guard: true },
+        { name: 'ইন্টারমিডিয়েট', path: '/inter', icon: TrendingUp, color: 'blue', guard: true },
+        { name: 'অ্যাডভান্সড', path: '/advanced', icon: Award, color: 'purple', guard: true }
       ]
     },
-    { name: 'ভোকাবুলারি লিস্ট', path: '/voc', icon: List,guard:true  },
+    { name: 'ভোকাবুলারি লিস্ট', path: '/voc', icon: List, guard: true },
   ];
 
   const isActivePath = (path) => location.pathname === path;
-  const isLevelPath = () => location.pathname.includes('/level/') || 
+  const isLevelPath = () => location.pathname.includes('/level/') ||
     ['/basic', '/inter', '/advanced'].includes(location.pathname);
 
   const handleLogout = () => {
@@ -99,7 +99,7 @@ const Navbar = () => {
   };
 
   const getCategoryIcon = (category) => {
-    switch(category?.toLowerCase()) {
+    switch (category?.toLowerCase()) {
       case 'basic': return <BookOpen className="w-3 h-3" />;
       case 'intermediate': return <TrendingUp className="w-3 h-3" />;
       case 'advanced': return <Award className="w-3 h-3" />;
@@ -127,11 +127,10 @@ const Navbar = () => {
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.5 }}
-        className={`fixed w-full z-50 transition-all duration-500 ${
-          scrolled 
-            ? 'bg-white/95 backdrop-blur-md shadow-lg py-2' 
-            : 'bg-gradient-to-r from-indigo-600/90 to-purple-600/90 backdrop-blur-sm py-4'
-        }`}
+        className={`fixed w-full z-50 transition-all duration-500 ${scrolled
+          ? 'bg-white/95 backdrop-blur-md shadow-lg py-2'
+          : 'bg-gradient-to-r from-indigo-600/90 to-purple-600/90 backdrop-blur-sm py-4'
+          }`}
       >
         <div className="container mx-auto px-4 lg:px-8">
           <div className="flex items-center justify-between">
@@ -140,16 +139,14 @@ const Navbar = () => {
               <motion.div
                 whileHover={{ rotate: 360, scale: 1.1 }}
                 transition={{ duration: 0.5 }}
-                className={`p-2 rounded-xl ${
-                  scrolled ? 'bg-gradient-to-r from-indigo-600 to-purple-600' : 'bg-white/20'
-                }`}
+                className={`p-2 rounded-xl ${scrolled ? 'bg-gradient-to-r from-indigo-600 to-purple-600' : 'bg-white/20'
+                  }`}
               >
                 <BookOpen className="w-6 h-6 text-white" />
               </motion.div>
               <div className="flex flex-col">
-                <span className={`text-xl font-bold leading-tight ${
-                  scrolled ? 'text-gray-800' : 'text-white'
-                }`}>
+                <span className={`text-xl font-bold leading-tight ${scrolled ? 'text-gray-800' : 'text-white'
+                  }`}>
                   ভোকাবুলারি
                 </span>
                 <span className={`text-xs ${scrolled ? 'text-gray-500' : 'text-white/80'}`}>
@@ -160,29 +157,30 @@ const Navbar = () => {
 
             {/* ডেস্কটপ মেনু */}
             <div className="hidden lg:flex items-center gap-1">
-              {navItems.map((item) => (
-                <div key={item.path} className="relative">
+              {navItems.map((item, index) => (
+                <div
+                  key={item.path ?? item.name ?? `desktop-nav-${index}`}
+                  className="relative"
+                >
                   {item.dropdown ? (
                     <div
                       onMouseEnter={() => setStartDropdownOpen(true)}
                       onMouseLeave={() => setStartDropdownOpen(false)}
                     >
                       <button
-                        className={`flex items-center gap-1 px-4 py-2 rounded-lg transition-all duration-200 ${
-                          isLevelPath()
-                            ? scrolled
-                              ? 'text-indigo-600 bg-indigo-50'
-                              : 'text-white bg-white/20'
-                            : scrolled
-                              ? 'text-gray-700 hover:text-indigo-600 hover:bg-indigo-50'
-                              : 'text-white/90 hover:text-white hover:bg-white/20'
-                        }`}
+                        className={`flex items-center gap-1 px-4 py-2 rounded-lg transition-all duration-200 ${isLevelPath()
+                          ? scrolled
+                            ? 'text-indigo-600 bg-indigo-50'
+                            : 'text-white bg-white/20'
+                          : scrolled
+                            ? 'text-gray-700 hover:text-indigo-600 hover:bg-indigo-50'
+                            : 'text-white/90 hover:text-white hover:bg-white/20'
+                          }`}
                       >
                         <item.icon className="w-4 h-4" />
                         <span className="font-medium">{item.name}</span>
-                        <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${
-                          startDropdownOpen ? 'rotate-180' : ''
-                        }`} />
+                        <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${startDropdownOpen ? 'rotate-180' : ''
+                          }`} />
                       </button>
 
                       <AnimatePresence>
@@ -200,11 +198,10 @@ const Navbar = () => {
                               <Link
                                 key={subItem.path}
                                 to={subItem.path}
-                                className={`flex items-center gap-3 px-4 py-2 hover:bg-indigo-50 transition-colors ${
-                                  location.pathname === subItem.path
-                                    ? 'text-indigo-600 bg-indigo-50'
-                                    : 'text-gray-700'
-                                }`}
+                                className={`flex items-center gap-3 px-4 py-2 hover:bg-indigo-50 transition-colors ${location.pathname === subItem.path
+                                  ? 'text-indigo-600 bg-indigo-50'
+                                  : 'text-gray-700'
+                                  }`}
                                 onClick={() => setStartDropdownOpen(false)}
                               >
                                 <subItem.icon className={`w-4 h-4 text-${subItem.color}-500`} />
@@ -218,15 +215,14 @@ const Navbar = () => {
                   ) : (
                     <Link
                       to={item.path}
-                      className={`flex items-center gap-1 px-4 py-2 rounded-lg transition-all duration-200 ${
-                        isActivePath(item.path)
-                          ? scrolled
-                            ? 'text-indigo-600 bg-indigo-50'
-                            : 'text-white bg-white/20'
-                          : scrolled
-                            ? 'text-gray-700 hover:text-indigo-600 hover:bg-indigo-50'
-                            : 'text-white/90 hover:text-white hover:bg-white/20'
-                      }`}
+                      className={`flex items-center gap-1 px-4 py-2 rounded-lg transition-all duration-200 ${isActivePath(item.path)
+                        ? scrolled
+                          ? 'text-indigo-600 bg-indigo-50'
+                          : 'text-white bg-white/20'
+                        : scrolled
+                          ? 'text-gray-700 hover:text-indigo-600 hover:bg-indigo-50'
+                          : 'text-white/90 hover:text-white hover:bg-white/20'
+                        }`}
                       onClick={closeAllDropdowns}
                     >
                       <item.icon className="w-4 h-4" />
@@ -244,11 +240,10 @@ const Navbar = () => {
                 <motion.div
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-300 ${
-                    scrolled
-                      ? 'text-indigo-600 bg-indigo-50 hover:bg-indigo-100'
-                      : 'text-white bg-white/20 hover:bg-white/30'
-                  }`}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-300 ${scrolled
+                    ? 'text-indigo-600 bg-indigo-50 hover:bg-indigo-100'
+                    : 'text-white bg-white/20 hover:bg-white/30'
+                    }`}
                 >
                   <LayoutDashboard className="w-4 h-4" />
                   <span>ড্যাশবোর্ড</span>
@@ -265,11 +260,10 @@ const Navbar = () => {
                     setUserDropdownOpen(false);
                     setStartDropdownOpen(false);
                   }}
-                  className={`p-2 rounded-lg transition-colors relative ${
-                    scrolled 
-                      ? 'text-gray-600 hover:text-indigo-600 hover:bg-indigo-50' 
-                      : 'text-white/90 hover:text-white hover:bg-white/20'
-                  }`}
+                  className={`p-2 rounded-lg transition-colors relative ${scrolled
+                    ? 'text-gray-600 hover:text-indigo-600 hover:bg-indigo-50'
+                    : 'text-white/90 hover:text-white hover:bg-white/20'
+                    }`}
                 >
                   <Bell className="w-5 h-5" />
                   {unreadCount > 0 && (
@@ -319,10 +313,9 @@ const Navbar = () => {
                         ) : (
                           notifications.map((notif, idx) => (
                             <div
-                              key={idx}
-                              className={`p-4 border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors cursor-pointer ${
-                                idx < unreadCount ? 'bg-indigo-50/30 dark:bg-indigo-900/20' : ''
-                              }`}
+                              key={notif.id ?? notif.timestamp ?? `${notif.word}-${idx}`}
+                              className={`p-4 border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors cursor-pointer ${idx < unreadCount ? 'bg-indigo-50/30 dark:bg-indigo-900/20' : ''
+                                }`}
                               onClick={() => markAsRead(idx)}
                             >
                               <div className="flex items-start gap-3">
@@ -330,7 +323,7 @@ const Navbar = () => {
                                   {notif.category === 'basic' && <BookOpen className="w-8 h-8 text-green-500" />}
                                   {notif.category === 'intermediate' && <TrendingUp className="w-8 h-8 text-blue-500" />}
                                   {notif.category === 'advanced' && <Award className="w-8 h-8 text-purple-500" />}
-                                  {(notif.category !== 'basic' && notif.category !== 'intermediate' && notif.category !== 'advanced') && 
+                                  {(notif.category !== 'basic' && notif.category !== 'intermediate' && notif.category !== 'advanced') &&
                                     <CheckCircle className="w-8 h-8 text-indigo-500" />
                                   }
                                 </div>
@@ -383,9 +376,8 @@ const Navbar = () => {
                     onClick={() => setUserDropdownOpen(!userDropdownOpen)}
                     onMouseEnter={() => setUserDropdownOpen(true)}
                     onMouseLeave={() => setUserDropdownOpen(false)}
-                    className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-colors ${
-                      scrolled ? 'hover:bg-indigo-50' : 'hover:bg-white/20'
-                    }`}
+                    className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-colors ${scrolled ? 'hover:bg-indigo-50' : 'hover:bg-white/20'
+                      }`}
                   >
                     <div className="w-8 h-8 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold text-sm">
                       {getUserInitial()}
@@ -431,26 +423,24 @@ const Navbar = () => {
                     <motion.button
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
-                      className={`flex items-center gap-2 px-5 py-2 rounded-lg transition-all duration-300 ${
-                        scrolled
-                          ? 'text-gray-700 border border-gray-300 hover:border-indigo-600 hover:text-indigo-600'
-                          : 'text-white border border-white/30 hover:bg-white/20'
-                      }`}
+                      className={`flex items-center gap-2 px-5 py-2 rounded-lg transition-all duration-300 ${scrolled
+                        ? 'text-gray-700 border border-gray-300 hover:border-indigo-600 hover:text-indigo-600'
+                        : 'text-white border border-white/30 hover:bg-white/20'
+                        }`}
                     >
                       <LogIn className="w-4 h-4" />
                       <span className="font-medium">লগইন</span>
                     </motion.button>
                   </Link>
-                  
+
                   <Link to="/register" onClick={closeAllDropdowns}>
                     <motion.button
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
-                      className={`flex items-center gap-2 px-5 py-2 rounded-lg shadow-lg transition-all duration-300 ${
-                        scrolled
-                          ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:shadow-xl'
-                          : 'bg-white text-indigo-600 hover:bg-gray-100'
-                      }`}
+                      className={`flex items-center gap-2 px-5 py-2 rounded-lg shadow-lg transition-all duration-300 ${scrolled
+                        ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:shadow-xl'
+                        : 'bg-white text-indigo-600 hover:bg-gray-100'
+                        }`}
                     >
                       <UserPlus className="w-4 h-4" />
                       <span className="font-medium">রেজিস্টার</span>
@@ -466,9 +456,8 @@ const Navbar = () => {
                 setIsOpen(!isOpen);
                 closeAllDropdowns();
               }}
-              className={`lg:hidden p-2 rounded-lg transition-colors ${
-                scrolled ? 'text-gray-700 hover:bg-gray-100' : 'text-white hover:bg-white/20'
-              }`}
+              className={`lg:hidden p-2 rounded-lg transition-colors ${scrolled ? 'text-gray-700 hover:bg-gray-100' : 'text-white hover:bg-white/20'
+                }`}
             >
               {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -486,8 +475,10 @@ const Navbar = () => {
             >
               <div className="container mx-auto px-4 py-4">
                 <div className="space-y-2">
-                  {navItems.map((item) => (
-                    <React.Fragment key={item.path}>
+                  {navItems.map((item, index) => (
+                    <React.Fragment
+                      key={item.path ?? item.name ?? `mobile-nav-${index}`}
+                    >
                       {item.dropdown ? (
                         <>
                           <div className="px-4 py-2 font-medium text-gray-500 flex items-center gap-2">
@@ -498,11 +489,10 @@ const Navbar = () => {
                             <Link
                               key={subItem.path}
                               to={subItem.path}
-                              className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all ml-4 ${
-                                location.pathname === subItem.path
-                                  ? 'text-indigo-600 bg-indigo-50'
-                                  : 'text-gray-700 hover:text-indigo-600 hover:bg-indigo-50'
-                              }`}
+                              className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all ml-4 ${location.pathname === subItem.path
+                                ? 'text-indigo-600 bg-indigo-50'
+                                : 'text-gray-700 hover:text-indigo-600 hover:bg-indigo-50'
+                                }`}
                               onClick={() => setIsOpen(false)}
                             >
                               <subItem.icon className={`w-4 h-4 text-${subItem.color}-500`} />
@@ -513,11 +503,10 @@ const Navbar = () => {
                       ) : (
                         <Link
                           to={item.path}
-                          className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
-                            isActivePath(item.path)
-                              ? 'text-indigo-600 bg-indigo-50'
-                              : 'text-gray-700 hover:text-indigo-600 hover:bg-indigo-50'
-                          }`}
+                          className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${isActivePath(item.path)
+                            ? 'text-indigo-600 bg-indigo-50'
+                            : 'text-gray-700 hover:text-indigo-600 hover:bg-indigo-50'
+                            }`}
                           onClick={() => setIsOpen(false)}
                         >
                           <item.icon className="w-5 h-5" />
