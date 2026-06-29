@@ -28,7 +28,11 @@ const Login = () => {
   //google login 
   const responseGoogle=async(authResult)=>{
     try{
-        console.log(authResult)
+        if(authResult['code']){
+          const result=await googleAuth(authResult['code']);
+          const {email,name,image}=result.data.user;
+          console.log("google user info",result.data.user)
+        }
     }catch(error){
       console.error('Google login error:', error);
     }
