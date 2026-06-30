@@ -31,7 +31,13 @@ const Login = () => {
         if(authResult['code']){
           const result=await googleAuth(authResult['code']);
           const {email,name,image}=result.data.user;
-          console.log("google user info",result.data.user)
+          const token = {email,name,image,token};
+          localStorage.setItem('user_info',JSON.stringify(obj));
+          console.log("Google login successful:",result.data.user);
+          console.log(token);
+          // Redirect to the intended page after successful login 
+          navigate(from,{relative:true})
+          
         }
     }catch(error){
       console.error('Google login error:', error);

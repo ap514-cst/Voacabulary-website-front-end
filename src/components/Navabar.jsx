@@ -31,10 +31,48 @@ const Navbar = () => {
   const [startDropdownOpen, setStartDropdownOpen] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
+  const [userInfo, setUserInfo] = useState(null);
   const location = useLocation();
   const navigate = useNavigate();
   const { user, logout } = useAuth();
   const { notifications, unreadCount, markAsRead, clearAll } = useNotifications();
+
+  // Load user info from localStorage
+  useEffect(() => {
+    const loadUserInfo = () => {
+      try {
+        const data = localStorage.getItem('user_info');
+        if (data) {
+          const parsedData = JSON.parse(data);
+          setUserInfo(parsedData);
+          console.log('User info loaded from localStorage:', parsedData);
+        }
+      } catch (error) {
+        console.error('Error loading user info from localStorage:', error);
+      }
+    };
+
+    loadUserInfo();
+
+    // Listen for storage changes (if user updates in another tab)
+    const handleStorageChange = (e) => {
+      if (e.key === 'user_info') {
+        loadUserInfo();
+      }
+    };
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, []);
+
+  // Update userInfo when user prop changes
+  useEffect(() => {
+    if (user) {
+      setUserInfo(user);
+    }
+  }, [user]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -66,6 +104,11 @@ const Navbar = () => {
     ['/basic', '/inter', '/advanced'].includes(location.pathname);
 
   const handleLogout = () => {
+    // Clear user info from localStorage
+    localStorage.removeItem('user_info');
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    setUserInfo(null);
     logout();
     navigate('/');
     setUserDropdownOpen(false);
@@ -74,7 +117,50 @@ const Navbar = () => {
   };
 
   const getUserInitial = () => {
-    return user?.name?.charAt(0).toUpperCase() || 'U';
+    // First check userInfo from localStorage (Google login)
+    if (userInfo?.name) {
+      return userInfo.name.charAt(0).toUpperCase();
+    }
+    // Then check user from AuthContext
+    if (user?.name) {
+      return user.name.charAt(0).toUpperCase();
+    }
+    return 'U';
+  };
+
+  const getUserDisplayName = () => {
+    // First check userInfo from localStorage (Google login)
+    if (userInfo?.name) {
+      return userInfo.name.split(' ')[0] || userInfo.name;
+    }
+    // Then check user from AuthContext
+    if (user?.name) {
+      return user.name.split(' ')[0] || user.name;
+    }
+    return 'User';
+  };
+
+  const getUserEmail = () => {
+    // First check userInfo from localStorage (Google login)
+    if (userInfo?.email) {
+      return userInfo.email;
+    }
+    // Then check user from AuthContext
+    if (user?.email) {
+      return user.email;
+    }
+    return '';
+  };
+
+  const getUserProfilePicture = () => {
+    // Check for Google profile picture
+    if (userInfo?.picture) {
+      return userInfo.picture;
+    }
+    if (userInfo?.photoURL) {
+      return userInfo.photoURL;
+    }
+    return null;
   };
 
   const closeAllDropdowns = () => {
@@ -120,6 +206,8 @@ const Navbar = () => {
     if (hours < 24) return `${hours} ঘন্টা আগে`;
     return `${days} দিন আগে`;
   };
+
+  const isLoggedIn = !!(user || userInfo);
 
   return (
     <>
@@ -370,7 +458,7 @@ const Navbar = () => {
               </div>
 
               {/* ইউজার সেকশন */}
-              {user ? (
+              {isLoggedIn ? (
                 <div className="relative">
                   <button
                     onClick={() => setUserDropdownOpen(!userDropdownOpen)}
@@ -379,11 +467,20 @@ const Navbar = () => {
                     className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-colors ${scrolled ? 'hover:bg-indigo-50' : 'hover:bg-white/20'
                       }`}
                   >
-                    <div className="w-8 h-8 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold text-sm">
-                      {getUserInitial()}
-                    </div>
+                    {/* Profile Picture or Initial */}
+                    {getUserProfilePicture() ? (
+                      <img
+                        src={getUserProfilePicture()}
+                        alt="Profile"
+                        className="w-8 h-8 rounded-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-8 h-8 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold text-sm">
+                        {getUserInitial()}
+                      </div>
+                    )}
                     <span className={`font-medium ${scrolled ? 'text-gray-700' : 'text-white'}`}>
-                      {user.name?.split(' ')[0] || 'User'}
+                      {getUserDisplayName()}
                     </span>
                     <ChevronDown className={`w-4 h-4 transition-transform ${userDropdownOpen ? 'rotate-180' : ''} ${scrolled ? 'text-gray-600' : 'text-white/80'}`} />
                   </button>
@@ -394,10 +491,34 @@ const Navbar = () => {
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 10 }}
-                        className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50"
+                        className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50"
                         onMouseEnter={() => setUserDropdownOpen(true)}
                         onMouseLeave={() => setUserDropdownOpen(false)}
                       >
+                        <div className="px-4 py-3 border-b border-gray-100">
+                          <div className="flex items-center gap-3">
+                            {getUserProfilePicture() ? (
+                              <img
+                                src={getUserProfilePicture()}
+                                alt="Profile"
+                                className="w-10 h-10 rounded-full object-cover"
+                              />
+                            ) : (
+                              <div className="w-10 h-10 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold text-sm">
+                                {getUserInitial()}
+                              </div>
+                            )}
+                            <div className="flex-1 min-w-0">
+                              <p className="text-sm font-medium text-gray-900 truncate">
+                                {getUserDisplayName()}
+                              </p>
+                              <p className="text-xs text-gray-500 truncate">
+                                {getUserEmail()}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+
                         <Link
                           to="/profile"
                           className="flex items-center gap-3 px-4 py-2 hover:bg-indigo-50 transition-colors text-gray-700"
@@ -406,6 +527,13 @@ const Navbar = () => {
                           <User className="w-4 h-4" />
                           <span>প্রোফাইল</span>
                         </Link>
+
+                        {userInfo?.provider === 'google' && (
+                          <div className="px-4 py-2 text-xs text-gray-400 border-b border-gray-100">
+                            🔗 Google অ্যাকাউন্টের সাথে সংযুক্ত
+                          </div>
+                        )}
+
                         <button
                           onClick={handleLogout}
                           className="w-full flex items-center gap-3 px-4 py-2 hover:bg-red-50 transition-colors text-red-600"
@@ -519,7 +647,6 @@ const Navbar = () => {
                   {/* মোবাইলে ড্যাশবোর্ড */}
                   <Link
                     to="/start"
-                    guard:true
                     className="flex items-center gap-3 px-4 py-3 rounded-lg transition-all text-gray-700 hover:text-indigo-600 hover:bg-indigo-50"
                     onClick={() => setIsOpen(false)}
                   >
@@ -530,16 +657,24 @@ const Navbar = () => {
                   <div className="border-t border-gray-200 my-4"></div>
 
                   {/* মোবাইলে ইউজার সেকশন */}
-                  {user ? (
+                  {isLoggedIn ? (
                     <>
                       <div className="px-4 py-2">
                         <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold">
-                            {getUserInitial()}
-                          </div>
+                          {getUserProfilePicture() ? (
+                            <img
+                              src={getUserProfilePicture()}
+                              alt="Profile"
+                              className="w-10 h-10 rounded-full object-cover"
+                            />
+                          ) : (
+                            <div className="w-10 h-10 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold">
+                              {getUserInitial()}
+                            </div>
+                          )}
                           <div>
-                            <p className="font-medium text-gray-900">{user.name}</p>
-                            <p className="text-sm text-gray-500">{user.email}</p>
+                            <p className="font-medium text-gray-900">{getUserDisplayName()}</p>
+                            <p className="text-sm text-gray-500">{getUserEmail()}</p>
                           </div>
                         </div>
                       </div>
