@@ -2,19 +2,20 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import {useGoogleLogin}from '@react-oauth/google';
-import { FaGoogle } from 'react-icons/fa'; 
-import { 
-  LogIn, 
-  Mail, 
-  Lock, 
-  Eye, 
+import { useGoogleLogin } from '@react-oauth/google';
+import { FaGoogle } from 'react-icons/fa';
+import { googleAuth } from '../User_Auth/API';
+import {
+  LogIn,
+  Mail,
+  Lock,
+  Eye,
   EyeOff,
   BookOpen,
   ArrowRight,
   AlertCircle,
   CheckCircle,
-  
+
 } from 'lucide-react';
 import { useAuth } from '../AuthContext/AuthContext';
 import { Helmet } from 'react-helmet-async';
@@ -24,40 +25,43 @@ const Login = () => {
   const location = useLocation(); // ✅ Add this to get the intended destination
   const { login } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
-  
+
   //google login 
-  const responseGoogle=async(authResult)=>{
-    try{
-        if(authResult['code']){
-          const result=await googleAuth(authResult['code']);
-          const {email,name,image}=result.data.user;
-          const token = {email,name,image,token};
-          localStorage.setItem('user_info',JSON.stringify(obj));
-          console.log("Google login successful:",result.data.user);
-          console.log(token);
-          // Redirect to the intended page after successful login 
-          navigate(from,{relative:true})
-          
-        }
-    }catch(error){
+  const responseGoogle = async (authResult) => {
+    try {
+      if (authResult['code']) {
+        const result = await googleAuth(authResult['code']);
+        const { email, name, image } = result.data.user;
+        const token = result.data.token;
+        localStorage.setItem(
+          "user_info",
+          JSON.stringify(result.data.user)
+        );
+        console.log("Google login successful:", result.data.user);
+        console.log(token);
+        // Redirect to the intended page after successful login 
+        navigate(from, { relative: true })
+
+      }
+    } catch (error) {
       console.error('Google login error:', error);
     }
   }
-  const handleGoogleLogin=useGoogleLogin({
+  const handleGoogleLogin = useGoogleLogin({
     onSuccess: responseGoogle,
     onError: responseGoogle,
-    flow:'auth-code'
+    flow: 'auth-code'
   });
 
   // ✅ Get the page user was trying to visit (or default to '/')
   const from = location.state?.from?.pathname || '/';
-  
+
   const [formData, setFormData] = useState({
     email: '',
     password: '',
     rememberMe: false
   });
-  
+
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [apiError, setApiError] = useState('');
@@ -69,7 +73,7 @@ const Login = () => {
       ...prev,
       [name]: type === 'checkbox' ? checked : value
     }));
-    
+
     if (errors[name]) {
       setErrors(prev => ({ ...prev, [name]: '' }));
     }
@@ -78,19 +82,19 @@ const Login = () => {
 
   const validateForm = () => {
     const newErrors = {};
-    
+
     if (!formData.email) {
       newErrors.email = 'ইমেইল প্রয়োজন';
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = 'বৈধ ইমেইল দিন';
     }
-    
+
     if (!formData.password) {
       newErrors.password = 'পাসওয়ার্ড প্রয়োজন';
     } else if (formData.password.length < 6) {
       newErrors.password = 'পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে';
     }
-    
+
     return newErrors;
   };
 
@@ -121,23 +125,23 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     const newErrors = validateForm();
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
     }
-    
+
     setIsLoading(true);
     setApiError('');
-    
+
     const result = await loginUser(formData);
-    
+
     if (result.success) {
       // ✅ Pass the token if your backend returns it
       login(result.data.user, result.data.token);
       setShowSuccess(true);
-      
+
       // ✅ Redirect to the page user wanted to visit, not just home
       setTimeout(() => {
         navigate(from, { replace: true });
@@ -145,7 +149,7 @@ const Login = () => {
     } else {
       setApiError(result.error);
     }
-    
+
     setIsLoading(false);
   };
 
@@ -181,7 +185,7 @@ const Login = () => {
           </motion.div>
           <h1 className="text-3xl font-bold text-gray-900 mb-2">স্বাগতম!</h1>
           <p className="text-gray-600">আপনার অ্যাকাউন্টে লগইন করুন</p>
-          
+
           {/* ✅ Show message if coming from protected page */}
           {from !== '/' && (
             <p className="text-sm text-indigo-600 mt-2">
@@ -192,7 +196,7 @@ const Login = () => {
 
         {/* লগইন ফর্ম */}
         <div className="bg-white/80 backdrop-blur-xl rounded-2xl shadow-xl p-8 border border-gray-100">
-          
+
           {/* সাকসেস মেসেজ */}
           {showSuccess && (
             <motion.div
@@ -235,11 +239,10 @@ const Login = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-all ${
-                    errors.email 
-                      ? 'border-red-300 focus:ring-red-200' 
+                  className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-all ${errors.email
+                      ? 'border-red-300 focus:ring-red-200'
                       : 'border-gray-200 focus:ring-indigo-200 focus:border-indigo-400'
-                  }`}
+                    }`}
                   placeholder="your@email.com"
                 />
               </div>
@@ -260,11 +263,10 @@ const Login = () => {
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  className={`w-full pl-10 pr-12 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-all ${
-                    errors.password 
-                      ? 'border-red-300 focus:ring-red-200' 
+                  className={`w-full pl-10 pr-12 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-all ${errors.password
+                      ? 'border-red-300 focus:ring-red-200'
                       : 'border-gray-200 focus:ring-indigo-200 focus:border-indigo-400'
-                  }`}
+                    }`}
                   placeholder="••••••••"
                 />
                 <button
@@ -347,7 +349,7 @@ const Login = () => {
           </form>
 
           {/* ডেমো ক্রেডেনশিয়াল */}
-         
+
         </div>
       </motion.div>
 
