@@ -15,43 +15,16 @@ import {
   ArrowRight,
   AlertCircle,
   CheckCircle,
-
 } from 'lucide-react';
 import { useAuth } from '../AuthContext/AuthContext';
 import { Helmet } from 'react-helmet-async';
 
 const Login = () => {
   const navigate = useNavigate();
-  const location = useLocation(); // ✅ Add this to get the intended destination
+  const location = useLocation();
   const { login } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
-
-  //google login 
-  const responseGoogle = async (authResult) => {
-    try {
-      if (authResult['code']) {
-        const result = await googleAuth(authResult['code']);
-        const { email, name, image } = result.data.user;
-        const token = result.data.token;
-        localStorage.setItem(
-          "user_info",
-          JSON.stringify(result.data.user)
-        );
-        console.log("Google login successful:", result.data.user);
-        console.log(token);
-        // Redirect to the intended page after successful login 
-        navigate(from, { relative: true })
-
-      }
-    } catch (error) {
-      console.error('Google login error:', error);
-    }
-  }
-  const handleGoogleLogin = useGoogleLogin({
-    onSuccess: responseGoogle,
-    onError: responseGoogle,
-    flow: 'auth-code'
-  });
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
 
   // ✅ Get the page user was trying to visit (or default to '/')
   const from = location.state?.from?.pathname || '/';
@@ -67,6 +40,73 @@ const Login = () => {
   const [apiError, setApiError] = useState('');
   const [showSuccess, setShowSuccess] = useState(false);
 
+  // ✅ Google Login Handler
+  const responseGoogle = async (authResult) => {
+    try {
+      setIsGoogleLoading(true);
+      console.log('Google auth result:', authResult);
+
+      if (authResult['code']) {
+        const result = await googleAuth(authResult['code']);
+        console.log('Google login response:', result);
+
+        if (result.data && result.data.user) {
+          const { email, name, image, picture, id } = result.data.user;
+          const token = result.data.token;
+
+          // ✅ Prepare user data for localStorage
+          const userData = {
+            id: id || result.data.user._id,
+            name: name || result.data.user.name || 'User',
+            email: email || result.data.user.email,
+            picture: image || picture || result.data.user.picture || null,
+            provider: 'google',
+            token: token
+          };
+
+          // ✅ Store user info in localStorage
+          localStorage.setItem('user_info', JSON.stringify(userData));
+          localStorage.setItem('token', token);
+          localStorage.setItem('user', JSON.stringify(userData));
+
+          // ✅ Update AuthContext
+          login(userData, token);
+
+          console.log('✅ Google login successful! User data:', userData);
+          console.log('✅ Token stored:', token);
+
+          // ✅ Show success message
+          setShowSuccess(true);
+
+          // ✅ Redirect to intended page after 1.5 seconds
+          setTimeout(() => {
+            navigate(from, { replace: true });
+          }, 1500);
+        } else {
+          throw new Error('Invalid user data received from Google');
+        }
+      } else {
+        throw new Error('No authorization code received');
+      }
+    } catch (error) {
+      console.error('❌ Google login error:', error);
+      setApiError(error.message || 'Google লগইন ব্যর্থ হয়েছে। আবার চেষ্টা করুন।');
+      setIsGoogleLoading(false);
+    }
+  };
+
+  // ✅ Google Login Button Handler
+  const handleGoogleLogin = useGoogleLogin({
+    onSuccess: responseGoogle,
+    onError: (error) => {
+      console.error('Google OAuth error:', error);
+      setApiError('Google লগইন ব্যর্থ হয়েছে। আবার চেষ্টা করুন।');
+      setIsGoogleLoading(false);
+    },
+    flow: 'auth-code'
+  });
+
+  // ✅ Regular Login Handler
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData(prev => ({
@@ -138,11 +178,22 @@ const Login = () => {
     const result = await loginUser(formData);
 
     if (result.success) {
-      // ✅ Pass the token if your backend returns it
-      login(result.data.user, result.data.token);
+      // ✅ Store regular login data
+      const userData = {
+        name: result.data.user.name,
+        email: result.data.user.email,
+        id: result.data.user._id,
+        provider: 'email',
+        token: result.data.token
+      };
+
+      localStorage.setItem('user_info', JSON.stringify(userData));
+      localStorage.setItem('token', result.data.token);
+      localStorage.setItem('user', JSON.stringify(userData));
+
+      login(userData, result.data.token);
       setShowSuccess(true);
 
-      // ✅ Redirect to the page user wanted to visit, not just home
       setTimeout(() => {
         navigate(from, { replace: true });
       }, 1500);
@@ -155,25 +206,26 @@ const Login = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 flex items-center justify-center p-4">
-      {/* ব্যাকগ্রাউন্ড অ্যানিমেশন */}
       <Helmet>
-        <title>লগইন</title>
+        <title>লগইন - ভোকাবুলারি</title>
         <meta name="description" content="লগইন করুন এবং আপনার ইংরেজি শব্দকোষ উন্নয়ন করুন" />
       </Helmet>
+
+      {/* Background Animation */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-indigo-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
         <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
         <div className="absolute top-40 left-40 w-80 h-80 bg-pink-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
       </div>
 
-      {/* লগইন কার্ড */}
+      {/* Login Card */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         className="relative w-full max-w-md"
       >
-        {/* হেডার */}
+        {/* Header */}
         <div className="text-center mb-8">
           <motion.div
             initial={{ scale: 0 }}
@@ -186,7 +238,6 @@ const Login = () => {
           <h1 className="text-3xl font-bold text-gray-900 mb-2">স্বাগতম!</h1>
           <p className="text-gray-600">আপনার অ্যাকাউন্টে লগইন করুন</p>
 
-          {/* ✅ Show message if coming from protected page */}
           {from !== '/' && (
             <p className="text-sm text-indigo-600 mt-2">
               এই পৃষ্ঠাটি দেখতে লগইন প্রয়োজন
@@ -194,10 +245,9 @@ const Login = () => {
           )}
         </div>
 
-        {/* লগইন ফর্ম */}
+        {/* Login Form */}
         <div className="bg-white/80 backdrop-blur-xl rounded-2xl shadow-xl p-8 border border-gray-100">
-
-          {/* সাকসেস মেসেজ */}
+          {/* Success Message */}
           {showSuccess && (
             <motion.div
               initial={{ opacity: 0, y: -10 }}
@@ -214,7 +264,7 @@ const Login = () => {
             </motion.div>
           )}
 
-          {/* API এরর মেসেজ */}
+          {/* API Error Message */}
           {apiError && (
             <motion.div
               initial={{ opacity: 0, y: -10 }}
@@ -227,7 +277,7 @@ const Login = () => {
           )}
 
           <form onSubmit={handleSubmit} className="space-y-6">
-            {/* ইমেইল ফিল্ড */}
+            {/* Email Field */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 ইমেইল <span className="text-red-500">*</span>
@@ -239,10 +289,11 @@ const Login = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-all ${errors.email
+                  className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-all ${
+                    errors.email
                       ? 'border-red-300 focus:ring-red-200'
                       : 'border-gray-200 focus:ring-indigo-200 focus:border-indigo-400'
-                    }`}
+                  }`}
                   placeholder="your@email.com"
                 />
               </div>
@@ -251,7 +302,7 @@ const Login = () => {
               )}
             </div>
 
-            {/* পাসওয়ার্ড ফিল্ড */}
+            {/* Password Field */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 পাসওয়ার্ড <span className="text-red-500">*</span>
@@ -263,10 +314,11 @@ const Login = () => {
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  className={`w-full pl-10 pr-12 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-all ${errors.password
+                  className={`w-full pl-10 pr-12 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-all ${
+                    errors.password
                       ? 'border-red-300 focus:ring-red-200'
                       : 'border-gray-200 focus:ring-indigo-200 focus:border-indigo-400'
-                    }`}
+                  }`}
                   placeholder="••••••••"
                 />
                 <button
@@ -282,7 +334,7 @@ const Login = () => {
               )}
             </div>
 
-            {/* মনে রাখুন এবং ফরগট পাসওয়ার্ড */}
+            {/* Remember Me & Forgot Password */}
             <div className="flex items-center justify-between">
               <label className="flex items-center gap-2 cursor-pointer">
                 <input
@@ -302,10 +354,10 @@ const Login = () => {
               </Link>
             </div>
 
-            {/* লগইন বাটন */}
+            {/* Login Button */}
             <motion.button
               type="submit"
-              disabled={isLoading || showSuccess}
+              disabled={isLoading || showSuccess || isGoogleLoading}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-3 rounded-lg font-semibold shadow-lg shadow-indigo-200 hover:shadow-xl transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
@@ -323,23 +375,44 @@ const Login = () => {
               )}
             </motion.button>
 
-            {/*google login button */}
+            {/* Divider */}
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-gray-300"></div>
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-2 bg-white/80 text-gray-500">অথবা</span>
+              </div>
+            </div>
+
+            {/* Google Login Button */}
             <motion.button
               type="button"
+              onClick={handleGoogleLogin}
+              disabled={isGoogleLoading || showSuccess}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="w-full border border-gray-300 text-gray-700 py-3 rounded-lg font-semibold shadow hover:shadow-xl transition-all flex items-center justify-center gap-2"
+              className="w-full border border-gray-300 text-gray-700 py-3 rounded-lg font-semibold shadow hover:shadow-xl transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
             >
-              <FaGoogle className="w-5 h-5" />
-              <span onClick={handleGoogleLogin}>Google দিয়ে লগইন করুন</span>
+              {isGoogleLoading ? (
+                <>
+                  <div className="w-5 h-5 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
+                  <span>Google লগইন হচ্ছে...</span>
+                </>
+              ) : (
+                <>
+                  <FaGoogle className="w-5 h-5 text-red-500" />
+                  <span>Google দিয়ে লগইন করুন</span>
+                </>
+              )}
             </motion.button>
 
-            {/* রেজিস্টার লিংক */}
+            {/* Register Link */}
             <p className="text-center text-gray-600">
               অ্যাকাউন্ট নেই?{' '}
               <Link
                 to="/register"
-                state={{ from }} // ✅ Pass the intended page to register as well
+                state={{ from }}
                 className="text-indigo-600 hover:text-indigo-700 font-semibold inline-flex items-center gap-1"
               >
                 রেজিস্টার করুন
@@ -347,13 +420,9 @@ const Login = () => {
               </Link>
             </p>
           </form>
-
-          {/* ডেমো ক্রেডেনশিয়াল */}
-
         </div>
       </motion.div>
 
-      {/* কাস্টম অ্যানিমেশন স্টাইল */}
       <style>{`
         @keyframes blob {
           0% { transform: translate(0px, 0px) scale(1); }
