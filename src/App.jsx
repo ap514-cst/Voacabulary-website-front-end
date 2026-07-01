@@ -31,7 +31,7 @@ import {GoogleOAuthProvider}from '@react-oauth/google';
 import ErrorHandla from './components/ErrorPage/ErrorHandla';
 import Profile_body from './components/Profile_Section/Profile_body';
 import UserB from './components/Browser/UseBrowserDetection';
-import InAppBanner from './components/Browser/InAppModal';
+import InAppModal from './components/Browser/InAppModal';
 import {useState}from 'react';     
 
 function App() {
@@ -54,7 +54,7 @@ function App() {
         <NotificationProvider>
           <Navbar />
           {isInAppBrowser && modelOpen && (
-            <InAppBanner onClose={() => setModelOpen(false)} />
+            <InAppModal onClose={() => setModelOpen(false)} />
           )}
           <Routes>
             <Route path='/'element={<Home/>}/>

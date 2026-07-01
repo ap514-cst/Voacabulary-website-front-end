@@ -1,7 +1,8 @@
 // src/components/InAppModal.jsx
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Chrome, ExternalLink, X, Copy, Check } from 'lucide-react';
+import {  ExternalLink, X, Copy, Check } from 'lucide-react';
+import { SiGooglechrome } from 'react-icons/si';
 
 const InAppModal = ({ onClose }) => {
   const [copied, setCopied] = useState(false);
