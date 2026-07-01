@@ -30,9 +30,9 @@ import Grammar from './components/Section/Garmmer';
 import {GoogleOAuthProvider}from '@react-oauth/google';
 import ErrorHandla from './components/ErrorPage/ErrorHandla';
 import Profile_body from './components/Profile_Section/Profile_body';
-
- 
-            
+import UserB from './components/Browser/UseBrowserDetection';
+import InAppBanner from './components/Browser/InAppBanner';
+import {useState}from 'react';     
 
 function App() {
   const GoogleAuthWrapper=()=>{
@@ -43,12 +43,19 @@ function App() {
     )
     
   }
+  const {isInAppBrowser}=UserB();
+
+  const [bannderVisible,setBannerVisible]=useState(true);
+
   return (
     <HelmetProvider>
     <Router>
       <AuthProvider>
         <NotificationProvider>
           <Navbar />
+          {isInAppBrowser && bannerVisible && (
+            <InAppBanner onClose={() => setBannerVisible(false)} />
+          )}
           <Routes>
             <Route path='/'element={<Home/>}/>
             <Route path='/login' element={<GoogleAuthWrapper/>}/>
