@@ -31,7 +31,7 @@ import {GoogleOAuthProvider}from '@react-oauth/google';
 import ErrorHandla from './components/ErrorPage/ErrorHandla';
 import Profile_body from './components/Profile_Section/Profile_body';
 import UserB from './components/Browser/UseBrowserDetection';
-import InAppBanner from './components/Browser/InAppBanner';
+import InAppBanner from './components/Browser/InAppModal';
 import {useState}from 'react';     
 
 function App() {
@@ -45,7 +45,7 @@ function App() {
   }
   const {isInAppBrowser}=UserB();
 
-  const [bannderVisible,setBannerVisible]=useState(true);
+  const [modelOpen,setModelOpen]=useState(true);
 
   return (
     <HelmetProvider>
@@ -53,8 +53,8 @@ function App() {
       <AuthProvider>
         <NotificationProvider>
           <Navbar />
-          {isInAppBrowser && bannerVisible && (
-            <InAppBanner onClose={() => setBannerVisible(false)} />
+          {isInAppBrowser && modelOpen && (
+            <InAppBanner onClose={() => setModelOpen(false)} />
           )}
           <Routes>
             <Route path='/'element={<Home/>}/>
