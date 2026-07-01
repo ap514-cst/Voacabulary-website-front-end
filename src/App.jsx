@@ -27,132 +27,130 @@ import About from './components/Policy/About';
 import PrivacyPolicy from './components/Policy/Privacypolicy';
 import Contact from './components/Policy/Contact';
 import Grammar from './components/Section/Garmmer';
-import {GoogleOAuthProvider}from '@react-oauth/google';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 import ErrorHandla from './components/ErrorPage/ErrorHandla';
 import Profile_body from './components/Profile_Section/Profile_body';
-import UserB from './components/Browser/UseBrowserDetection';
+import useBrowserDetection from './components/Browser/UseBrowserDetection';
 import InAppModal from './components/Browser/InAppModal';
-import {useState}from 'react';     
+import { useState } from 'react';
 
 function App() {
-  const GoogleAuthWrapper=()=>{
+  const GoogleAuthWrapper = () => {
     return (
       <GoogleOAuthProvider clientId='946839756651-ee2qm7eft0f77hg522jpbgvhreoefbi5.apps.googleusercontent.com' >
-      <Login/>
-    </GoogleOAuthProvider>
+        <Login />
+      </GoogleOAuthProvider>
     )
-    
-  }
-  const {isInAppBrowser}=UserB();
 
-  const [modelOpen,setModelOpen]=useState(true);
+  }
+  const { isInAppBrowser, browserName } = useBrowserDetection();
 
   return (
     <HelmetProvider>
-    <Router>
-      <AuthProvider>
-        <NotificationProvider>
-          <Navbar />
-          {isInAppBrowser && modelOpen && (
-            <InAppModal onClose={() => setModelOpen(false)} />
-          )}
-          <Routes>
-            <Route path='/'element={<Home/>}/>
-            <Route path='/login' element={<GoogleAuthWrapper/>}/>
-            <Route path='/register' element={<Register/>}/>
-            <Route path='/word/:word' element={<WordDetails/>}/>
-            <Route path="/terms" element={<TermsConditions/>}/>
-            <Route path='/about' element={<About/>}/>
-            <Route path='/privacy-policy' element={<PrivacyPolicy/>}/>
-            <Route path='/contact' element={<Contact/>}/>
-            <Route path='/*' element={
-            <ErrorHandla/>
-          }/>
-            <Route path='/basic' element={
-              <ProtctedRoute>
-                <BasicList/>
-              </ProtctedRoute>
-            }/>
-            <Route path='/inter' element={
-              <ProtctedRoute>
-                <Intermediate/>
-              </ProtctedRoute>
-            }/>
-            <Route path='/advanced' element={
-              <ProtctedRoute>
-                <Advanced/>
-              </ProtctedRoute>
-            }/>
-             <Route path='/voc' element={
-              <ProtctedRoute>
-                <VocList/>
-              </ProtctedRoute>
-            }/>
-            <Route path="/level/:levelId" element={
-              <ProtctedRoute>
-                <LevelPage/>
-              </ProtctedRoute>
-            }/>
+      <Router>
+        <AuthProvider>
+          <NotificationProvider>
+            <Navbar />
+            {isInAppBrowser && (
+              <InAppModal browserName={browserName} />
+            )}
+            <Routes>
+              <Route path='/' element={<Home />} />
+              <Route path='/login' element={<GoogleAuthWrapper />} />
+              <Route path='/register' element={<Register />} />
+              <Route path='/word/:word' element={<WordDetails />} />
+              <Route path="/terms" element={<TermsConditions />} />
+              <Route path='/about' element={<About />} />
+              <Route path='/privacy-policy' element={<PrivacyPolicy />} />
+              <Route path='/contact' element={<Contact />} />
+              <Route path='/*' element={
+                <ErrorHandla />
+              } />
+              <Route path='/basic' element={
+                <ProtctedRoute>
+                  <BasicList />
+                </ProtctedRoute>
+              } />
+              <Route path='/inter' element={
+                <ProtctedRoute>
+                  <Intermediate />
+                </ProtctedRoute>
+              } />
+              <Route path='/advanced' element={
+                <ProtctedRoute>
+                  <Advanced />
+                </ProtctedRoute>
+              } />
+              <Route path='/voc' element={
+                <ProtctedRoute>
+                  <VocList />
+                </ProtctedRoute>
+              } />
+              <Route path="/level/:levelId" element={
+                <ProtctedRoute>
+                  <LevelPage />
+                </ProtctedRoute>
+              } />
 
-             <Route path="/start" element={
-              <ProtctedRoute>
-                <StartNow/>
-              </ProtctedRoute>
-            }/>
-             <Route path="/irregula" element={
-              <ProtctedRoute>
-                <IrregularVerb/>
-              </ProtctedRoute>
-            }/>
-            <Route path="/kid" element={
-              <ProtctedRoute>
-                <KidsLearning/>
-              </ProtctedRoute>
-            }/>
-            <Route path="/alp" element={
-              <ProtctedRoute>
-                <Alphabet/>
-              </ProtctedRoute>
-            }/>
+              <Route path="/start" element={
+                <ProtctedRoute>
+                  <StartNow />
+                </ProtctedRoute>
+              } />
+              <Route path="/irregula" element={
+                <ProtctedRoute>
+                  <IrregularVerb />
+                </ProtctedRoute>
+              } />
+              <Route path="/kid" element={
+                <ProtctedRoute>
+                  <KidsLearning />
+                </ProtctedRoute>
+              } />
+              <Route path="/alp" element={
+                <ProtctedRoute>
+                  <Alphabet />
+                </ProtctedRoute>
+              } />
 
-            <Route path="/quiz" element={
-              <ProtctedRoute>
-                <Quiz/>
-              </ProtctedRoute>
-            }/>
-            <Route path="/number" element={
-              <ProtctedRoute>
-                <Number/>
-              </ProtctedRoute>
-            }/>
+              <Route path="/quiz" element={
+                <ProtctedRoute>
+                  <Quiz />
+                </ProtctedRoute>
+              } />
+              <Route path="/number" element={
+                <ProtctedRoute>
+                  <Number />
+                </ProtctedRoute>
+              } />
 
-            <Route path="/stories" element={
-              <ProtctedRoute>
-                <Stories/>
-              </ProtctedRoute>
-            }/>
+              <Route path="/stories" element={
+                <ProtctedRoute>
+                  <Stories />
+                </ProtctedRoute>
+              } />
 
-            <Route path="/phrese" element={
-              <ProtctedRoute>
-                <Phrese/>
-              </ProtctedRoute>
-            }/>
-            <Route path="/grammar" element={
-              <ProtctedRoute>
-                <Grammar/>
-              </ProtctedRoute>
-            }/>
+              <Route path="/phrese" element={
+                <ProtctedRoute>
+                  <Phrese />
+                </ProtctedRoute>
+              } />
+              <Route path="/grammar" element={
+                <ProtctedRoute>
+                  <Grammar />
+                </ProtctedRoute>
+              } />
 
-             <Route path='/profile' element={<ProtctedRoute>
-            <Profile_body/>
-          </ProtctedRoute>}/>
-          
-          </Routes>
-         
-          
-        </NotificationProvider>
-      </AuthProvider>
-    </Router>
+              <Route path='/profile' element={<ProtctedRoute>
+                <Profile_body />
+              </ProtctedRoute>} />
+
+            </Routes>
+
+
+          </NotificationProvider>
+        </AuthProvider>
+      </Router>
     </HelmetProvider>
   );
 }

@@ -1,21 +1,54 @@
 // src/hooks/useBrowserDetection.js
-import { useState, useEffect } from 'react';
+
+import { useEffect, useState } from "react";
 
 const useBrowserDetection = () => {
-  const [isInAppBrowser, setIsInAppBrowser] = useState(false);
+  const [browserInfo, setBrowserInfo] = useState({
+    isInAppBrowser: false,
+    browserName: "Unknown",
+    userAgent: "",
+  });
 
   useEffect(() => {
-    const ua = navigator.userAgent || '';
-    const isMessenger = /FBAN|FBAV/i.test(ua) && /Messenger/i.test(ua);
-    const isInstagram = /Instagram/i.test(ua);
-    const isFacebook = /FBAN/i.test(ua) && !isMessenger;
-    const isWhatsApp = /WhatsApp/i.test(ua);
-    const isWebView = /; wv\)/.test(ua) || /WebView/i.test(ua);
-    const isInApp = isMessenger || isInstagram || isFacebook || isWhatsApp || isWebView;
-    setIsInAppBrowser(isInApp);
+    const ua = navigator.userAgent || "";
+
+    // In-App Browser Detection
+    const checks = {
+      Facebook: /FBAN|FBAV/i.test(ua),
+      Messenger: /Messenger|FB_IAB/i.test(ua),
+      Instagram: /Instagram/i.test(ua),
+      WhatsApp: /WhatsApp/i.test(ua),
+      TikTok: /TikTok/i.test(ua),
+      Line: /\bLine\b/i.test(ua),
+      Snapchat: /Snapchat/i.test(ua),
+      Telegram: /Telegram/i.test(ua),
+      LinkedIn: /LinkedInApp/i.test(ua),
+      WeChat: /MicroMessenger/i.test(ua),
+      Pinterest: /Pinterest/i.test(ua),
+      Twitter: /Twitter/i.test(ua),
+      Gmail: /GSA/i.test(ua),
+      AndroidWebView:
+        /\bwv\b/i.test(ua) ||
+        (/Android/i.test(ua) && /Version\/[\d.]+/i.test(ua)),
+      iOSWebView:
+        /iPhone|iPad|iPod/i.test(ua) &&
+        /AppleWebKit/i.test(ua) &&
+        !/Safari/i.test(ua),
+    };
+
+    const browserName =
+      Object.keys(checks).find((key) => checks[key]) || "Browser";
+
+    const isInAppBrowser = Object.values(checks).some(Boolean);
+
+    setBrowserInfo({
+      isInAppBrowser,
+      browserName,
+      userAgent: ua,
+    });
   }, []);
 
-  return { isInAppBrowser };
+  return browserInfo;
 };
 
 export default useBrowserDetection;
