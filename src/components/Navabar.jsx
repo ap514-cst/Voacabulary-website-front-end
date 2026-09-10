@@ -20,7 +20,8 @@ import {
   LayoutDashboard,
   CheckCircle,
   XCircle,
-  AlertCircle
+  AlertCircle,
+  Globe // 🌍 Language icon যোগ করুন
 } from 'lucide-react';
 import { useAuth } from "./AuthContext/AuthContext";
 import { useNotifications } from './context/Notificationcontext';
@@ -32,6 +33,7 @@ const Navbar = () => {
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
+  const [languageDropdownOpen, setLanguageDropdownOpen] = useState(false); // ✅ Language dropdown state
   const location = useLocation();
   const navigate = useNavigate();
   const { user, logout } = useAuth();
@@ -54,7 +56,6 @@ const Navbar = () => {
 
     loadUserInfo();
 
-    // Listen for storage changes (if user updates in another tab)
     const handleStorageChange = (e) => {
       if (e.key === 'user_info') {
         loadUserInfo();
@@ -67,7 +68,6 @@ const Navbar = () => {
     };
   }, []);
 
-  // Update userInfo when user prop changes
   useEffect(() => {
     if (user) {
       setUserInfo(user);
@@ -104,7 +104,6 @@ const Navbar = () => {
     ['/basic', '/inter', '/advanced'].includes(location.pathname);
 
   const handleLogout = () => {
-    // Clear user info from localStorage
     localStorage.removeItem('user_info');
     localStorage.removeItem('token');
     localStorage.removeItem('user');
@@ -114,14 +113,13 @@ const Navbar = () => {
     setUserDropdownOpen(false);
     setIsOpen(false);
     setShowNotifications(false);
+    setLanguageDropdownOpen(false);
   };
 
   const getUserInitial = () => {
-    // First check userInfo from localStorage (Google login)
     if (userInfo?.name) {
       return userInfo.name.charAt(0).toUpperCase();
     }
-    // Then check user from AuthContext
     if (user?.name) {
       return user.name.charAt(0).toUpperCase();
     }
@@ -129,11 +127,9 @@ const Navbar = () => {
   };
 
   const getUserDisplayName = () => {
-    // First check userInfo from localStorage (Google login)
     if (userInfo?.name) {
       return userInfo.name.split(' ')[0] || userInfo.name;
     }
-    // Then check user from AuthContext
     if (user?.name) {
       return user.name.split(' ')[0] || user.name;
     }
@@ -141,11 +137,9 @@ const Navbar = () => {
   };
 
   const getUserEmail = () => {
-    // First check userInfo from localStorage (Google login)
     if (userInfo?.email) {
       return userInfo.email;
     }
-    // Then check user from AuthContext
     if (user?.email) {
       return user.email;
     }
@@ -153,7 +147,6 @@ const Navbar = () => {
   };
 
   const getUserProfilePicture = () => {
-    // Check for Google profile picture
     if (userInfo?.picture) {
       return userInfo.picture;
     }
@@ -167,6 +160,7 @@ const Navbar = () => {
     setStartDropdownOpen(false);
     setUserDropdownOpen(false);
     setShowNotifications(false);
+    setLanguageDropdownOpen(false);
   };
 
   const getCategoryColor = (category) => {
@@ -323,8 +317,56 @@ const Navbar = () => {
 
             {/* ডান পাশের সেকশন */}
             <div className="hidden lg:flex items-center gap-3">
+              {/* ✅ ল্যাঙ্গুয়েজ সেকশন - নতুন যোগ */}
+              <div className="relative">
+                <button
+                  onMouseEnter={() => setLanguageDropdownOpen(true)}
+                  onMouseLeave={() => setLanguageDropdownOpen(false)}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-300 ${scrolled
+                    ? 'text-indigo-600 bg-indigo-50 hover:bg-indigo-100'
+                    : 'text-white bg-white/20 hover:bg-white/30'
+                    }`}
+                >
+                  <Globe className="w-4 h-4" />
+                  <span>ভাষা</span>
+                  <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${languageDropdownOpen ? 'rotate-180' : ''
+                    }`} />
+                </button>
+
+                <AnimatePresence>
+                  {languageDropdownOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 10 }}
+                      transition={{ duration: 0.2 }}
+                      className="absolute top-full left-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50"
+                      onMouseEnter={() => setLanguageDropdownOpen(true)}
+                      onMouseLeave={() => setLanguageDropdownOpen(false)}
+                    >
+                      <Link
+                        to="/language/russian"
+                        className="flex items-center gap-3 px-4 py-2 hover:bg-indigo-50 transition-colors text-gray-700"
+                        onClick={() => setLanguageDropdownOpen(false)}
+                      >
+                        <span className="text-lg">🇷🇺</span>
+                        <span>Russian</span>
+                      </Link>
+                      <Link
+                        to="/language/chinese"
+                        className="flex items-center gap-3 px-4 py-2 hover:bg-indigo-50 transition-colors text-gray-700"
+                        onClick={() => setLanguageDropdownOpen(false)}
+                      >
+                        <span className="text-lg">🇨🇳</span>
+                        <span>Chinese</span>
+                      </Link>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
               {/* ড্যাশবোর্ড */}
-              <Link to="/start" >
+              <Link to="/start">
                 <motion.div
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -347,6 +389,7 @@ const Navbar = () => {
                     setShowNotifications(!showNotifications);
                     setUserDropdownOpen(false);
                     setStartDropdownOpen(false);
+                    setLanguageDropdownOpen(false);
                   }}
                   className={`p-2 rounded-lg transition-colors relative ${scrolled
                     ? 'text-gray-600 hover:text-indigo-600 hover:bg-indigo-50'
@@ -467,7 +510,6 @@ const Navbar = () => {
                     className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-colors ${scrolled ? 'hover:bg-indigo-50' : 'hover:bg-white/20'
                       }`}
                   >
-                    {/* Profile Picture or Initial */}
                     {getUserProfilePicture() ? (
                       <img
                         src={getUserProfilePicture()}
@@ -643,6 +685,28 @@ const Navbar = () => {
                       )}
                     </React.Fragment>
                   ))}
+
+                  {/* ✅ মোবাইলে ল্যাঙ্গুয়েজ সেকশন */}
+                  <div className="px-4 py-2 font-medium text-gray-500 flex items-center gap-2">
+                    <Globe className="w-4 h-4" />
+                    ভাষা
+                  </div>
+                  <Link
+                    to="/language/russian"
+                    className="flex items-center gap-3 px-4 py-3 rounded-lg transition-all ml-4 text-gray-700 hover:text-indigo-600 hover:bg-indigo-50"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <span className="text-lg">🇷🇺</span>
+                    <span className="font-medium">Russian</span>
+                  </Link>
+                  <Link
+                    to="/language/chinese"
+                    className="flex items-center gap-3 px-4 py-3 rounded-lg transition-all ml-4 text-gray-700 hover:text-indigo-600 hover:bg-indigo-50"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <span className="text-lg">🇨🇳</span>
+                    <span className="font-medium">Chinese</span>
+                  </Link>
 
                   {/* মোবাইলে ড্যাশবোর্ড */}
                   <Link

@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import io from 'socket.io-client';
+import {io} from 'socket.io-client';
 
 const NotificationContext = createContext();
 
@@ -12,17 +12,24 @@ export const NotificationProvider = ({ children }) => {
   useEffect(() => {
     // Connect to Socket.io server
    const socket = io(
-  "https://voacabulary-website-back-end-2.onrender.com",
+  "http://localhost:2002",
   {
-    transports: ["websocket"],
+    transports: ["websocket","polling"],
     reconnection: true,
     reconnectionAttempts: 5,
     reconnectionDelay: 1000,
   }
 );
+socket.on('connect',()=>{
+  console.log("Connnected to socket server with id",socket.id)
+})
+socket.on("disconnect",(err)=>{
+  console.log("disconnected from socket server",err.message)
+})
 
     socket.on('new-word', (data) => {
       // Add new notification at the top
+      console.log("Received new word notification:", data);
       setNotifications(prev => [data, ...prev]);
       setUnreadCount(prev => prev + 1);
     });
@@ -46,6 +53,8 @@ export const NotificationProvider = ({ children }) => {
     markAsRead,
     clearAll
   };
+
+ 
 
   return (
     <NotificationContext.Provider value={value}>

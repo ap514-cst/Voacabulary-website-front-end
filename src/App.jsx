@@ -33,6 +33,8 @@ import Profile_body from './components/Profile_Section/Profile_body';
 import useBrowserDetection from './components/Browser/UseBrowserDetection';
 import InAppModal from './components/Browser/InAppModal';
 import { useState } from 'react';
+import Russian from './components/language/Russian';
+import Chinese from './components/language/Chinese';
 
 function App() {
   const GoogleAuthWrapper = () => {
@@ -144,6 +146,14 @@ function App() {
               <Route path='/profile' element={<ProtctedRoute>
                 <Profile_body />
               </ProtctedRoute>} />
+
+              <Route path='/language/russian' element={<ProtctedRoute>
+                <Russian/>
+              </ProtctedRoute>}/>
+
+              <Route path='/language/chinese' element={<ProtctedRoute>
+                <Chinese/>
+              </ProtctedRoute>}/>
 
             </Routes>
 
