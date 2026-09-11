@@ -19,6 +19,9 @@ import {
 import { useAuth } from '../AuthContext/AuthContext';
 import { Helmet } from 'react-helmet-async';
 
+// ✅ Import central API config
+import API_ENDPOINTS from '../config/api';
+
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -73,7 +76,6 @@ const Login = () => {
           login(userData, token);
 
           console.log('✅ Google login successful! User data:', userData);
-          console.log('✅ Token stored:', token);
 
           // ✅ Show success message
           setShowSuccess(true);
@@ -138,9 +140,10 @@ const Login = () => {
     return newErrors;
   };
 
+  // ✅ UPDATED: Using API_ENDPOINTS.login instead of hardcoded URL
   const loginUser = async (userData) => {
     try {
-      const response = await fetch('https://voacabulary-website-back-end-2.onrender.com/api/users/login', {
+      const response = await fetch(API_ENDPOINTS.login, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -207,8 +210,14 @@ const Login = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 flex items-center justify-center p-4">
       <Helmet>
-        <title>লগইন - ভোকাবুলারি</title>
-        <meta name="description" content="লগইন করুন এবং আপনার ইংরেজি শব্দকোষ উন্নয়ন করুন" />
+        <title>লগইন - LearnixDB | English, Russian & Chinese Vocabulary</title>
+        <meta 
+          name="description" 
+          content="লগইন করুন LearnixDB-তে। ইংরেজি, রুশ এবং চাইনিজ ভাষা শেখার জন্য বিনামূল্যে অ্যাকাউন্ট। Free login for vocabulary learning platform." 
+        />
+        <meta name="keywords" content="login, লগইন, LearnixDB login, vocabulary login, English learning login" />
+        <link rel="canonical" href="https://learnixdb.netlify.app/login" />
+        <meta name="robots" content="noindex, follow" />
       </Helmet>
 
       {/* Background Animation */}
@@ -295,6 +304,7 @@ const Login = () => {
                       : 'border-gray-200 focus:ring-indigo-200 focus:border-indigo-400'
                   }`}
                   placeholder="your@email.com"
+                  autoComplete="email"
                 />
               </div>
               {errors.email && (
@@ -320,6 +330,7 @@ const Login = () => {
                       : 'border-gray-200 focus:ring-indigo-200 focus:border-indigo-400'
                   }`}
                   placeholder="••••••••"
+                  autoComplete="current-password"
                 />
                 <button
                   type="button"

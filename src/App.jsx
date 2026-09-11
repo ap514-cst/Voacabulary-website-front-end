@@ -20,7 +20,7 @@ import Stories from './components/Kidside/Stories';
 import { NotificationProvider } from "./components/context/Notificationcontext";
 import Phrese from "./components/Section/Phrese";
 import ProtctedRoute from './components/Auterouter/Protctedroute';
-import WordDetails from './components/Section/Worddetails';
+
 import { HelmetProvider } from 'react-helmet-async';
 import TermsConditions from './components/Policy/Termsconditions';
 import About from './components/Policy/About';
@@ -35,6 +35,7 @@ import InAppModal from './components/Browser/InAppModal';
 import { useState } from 'react';
 import Russian from './components/language/Russian';
 import Chinese from './components/language/Chinese';
+import VocabularyDetails from './components/VocabularyDetails';
 
 function App() {
   const GoogleAuthWrapper = () => {
@@ -60,7 +61,8 @@ function App() {
               <Route path='/' element={<Home />} />
               <Route path='/login' element={<GoogleAuthWrapper />} />
               <Route path='/register' element={<Register />} />
-              <Route path='/word/:word' element={<WordDetails />} />
+              
+              <Route path="/vocabulary/:id" element={<VocabularyDetails/>} />
               <Route path="/terms" element={<TermsConditions />} />
               <Route path='/about' element={<About />} />
               <Route path='/privacy-policy' element={<PrivacyPolicy />} />
@@ -157,7 +159,7 @@ function App() {
 
             </Routes>
 
-
+            
           </NotificationProvider>
         </AuthProvider>
       </Router>

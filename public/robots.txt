@@ -1,0 +1,35 @@
+# robots.txt for Vocabulary Website
+
+# সব ক্রলারকে অনুমতি দিন
+User-agent: *
+Allow: /
+
+# স্পেসিফিক ডিরেক্টরি ব্লক করুন (অপশনাল)
+Disallow: /admin/
+Disallow: /api/
+Disallow: /private/
+Disallow: /dashboard/
+Disallow: /profile/
+
+# Sitemap লোকেশন
+Sitemap: https://learnixdb.netlify.app/sitemap.xml
+
+# Googlebot এর জন্য নির্দিষ্ট নিয়ম
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+# Bingbot এর জন্য নির্দিষ্ট নিয়ম
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# ব্যান্ডউইথ বাঁচানোর জন্য কিছু বট ব্লক করুন (অপশনাল)
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /

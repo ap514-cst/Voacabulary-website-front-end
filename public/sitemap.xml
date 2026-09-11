@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+
+  <!-- হোম পেজ (সর্বোচ্চ প্রায়োরিটি) -->
+  <url>
+    <loc>https://learnixdb.netlify.app/</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- লগইন পেজ -->
+  <url>
+    <loc>https://learnixdb.netlify.app/login</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- রেজিস্টার পেজ -->
+  <url>
+    <loc>https://learnixdb.netlify.app/register</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- শুরু করুন পেজ -->
+  <url>
+    <loc>https://learnixdb.netlify.app/start</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- বেসিক লেভেল -->
+  <url>
+    <loc>https://learnixdb.netlify.app/basic</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- ইন্টারমিডিয়েট লেভেল -->
+  <url>
+    <loc>https://learnixdb.netlify.app/inter</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- অ্যাডভান্সড লেভেল -->
+  <url>
+    <loc>https://learnixdb.netlify.app/advanced</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- ভোকাবুলারি লিস্ট -->
+  <url>
+    <loc>https://learnixdb.netlify.app/voc</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- কুইজ পেজ -->
+  <url>
+    <loc>https://learnixdb.netlify.app/quiz</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- ফ্রেজ পেজ -->
+  <url>
+    <loc>https://learnixdb.netlify.app/phrases</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- সংখ্যা পেজ -->
+  <url>
+    <loc>https://learnixdb.netlify.app/numbers</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- গ্রামার পেজ -->
+  <url>
+    <loc>https://learnixdb.netlify.app/grammar</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- কিডস কর্নার -->
+  <url>
+    <loc>https://learnixdb.netlify.app/kids</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- অ্যালফাবেট সাউন্ড -->
+  <url>
+    <loc>https://learnixdb.netlify.app/alphabet</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- ইরেগুলার ভার্ব -->
+  <url>
+    <loc>https://learnixdb.netlify.app/irregular</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- রুশ ভাষা -->
+  <url>
+    <loc>https://learnixdb.netlify.app/language/russian</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- চাইনিজ ভাষা -->
+  <url>
+    <loc>https://learnixdb.netlify.app/language/chinese</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- আমাদের সম্পর্কে -->
+  <url>
+    <loc>https://learnixdb.netlify.app/about</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- যোগাযোগ -->
+  <url>
+    <loc>https://learnixdb.netlify.app/contact</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- গোপনীয়তা নীতি -->
+  <url>
+    <loc>https://learnixdb.netlify.app/privacy</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <!-- শর্তাবলী -->
+  <url>
+    <loc>https://learnixdb.netlify.app/terms</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+</urlset>

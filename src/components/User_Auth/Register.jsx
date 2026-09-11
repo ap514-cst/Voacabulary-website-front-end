@@ -1,6 +1,6 @@
 // src/components/Register.jsx
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { 
   UserPlus, 
@@ -17,8 +17,16 @@ import {
 } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 
+// ✅ Import central API config
+import API_ENDPOINTS from "../config/api";
+
 const Register = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  
+  // ✅ Get the page user was trying to visit (if any)
+  const from = location.state?.from?.pathname || '/login';
+  
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   
@@ -107,10 +115,10 @@ const Register = () => {
     return newErrors;
   };
 
-  // API তে ডাটা পাঠানোর ফাংশন
+  // ✅ UPDATED: Using API_ENDPOINTS.register instead of hardcoded URL
   const registerUser = async (userData) => {
     try {
-      const response = await fetch('https://voacabulary-website-back-end-2.onrender.com/api/users/register', {
+      const response = await fetch(API_ENDPOINTS.register, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -154,7 +162,8 @@ const Register = () => {
     if (result.success) {
       setShowSuccess(true);
       setTimeout(() => {
-        navigate('/login');
+        // ✅ If user came from a protected route, pass "from" to login
+        navigate('/login', { state: { from: location.state?.from } });
       }, 2000);
     } else {
       setApiError(result.error);
@@ -180,10 +189,18 @@ const Register = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 flex items-center justify-center p-4">
+      {/* ✅ SEO */}
       <Helmet>
-        <title>রেজিস্টার</title>
-        <meta name="description" content="নতুন অ্যাকাউন্ট তৈরি করুন এবং আপনার ইংরেজি শব্দকোষ উন্নয়ন করুন" />
+        <title>রেজিস্টার - LearnixDB | Free Vocabulary Learning</title>
+        <meta 
+          name="description" 
+          content="নতুন অ্যাকাউন্ট তৈরি করুন LearnixDB-তে। ইংরেজি, রুশ এবং চাইনিজ ভাষা শেখার জন্য বিনামূল্যে রেজিস্ট্রেশন। Free registration for vocabulary learning platform." 
+        />
+        <meta name="keywords" content="register, রেজিস্টার, LearnixDB register, sign up, vocabulary signup, free English learning registration" />
+        <link rel="canonical" href="https://learnixdb.netlify.app/register" />
+        <meta name="robots" content="noindex, follow" />
       </Helmet>
+      
       {/* ব্যাকগ্রাউন্ড অ্যানিমেশন */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-indigo-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
@@ -255,6 +272,7 @@ const Register = () => {
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
+                  autoComplete="name"
                   className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-all ${
                     errors.name 
                       ? 'border-red-300 focus:ring-red-200' 
@@ -280,6 +298,7 @@ const Register = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
+                  autoComplete="email"
                   className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-all ${
                     errors.email 
                       ? 'border-red-300 focus:ring-red-200' 
@@ -305,6 +324,7 @@ const Register = () => {
                   name="number"
                   value={formData.number}
                   onChange={handleChange}
+                  autoComplete="tel"
                   className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-all ${
                     errors.number 
                       ? 'border-red-300 focus:ring-red-200' 
@@ -330,6 +350,7 @@ const Register = () => {
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
+                  autoComplete="new-password"
                   className={`w-full pl-10 pr-12 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-all ${
                     errors.password 
                       ? 'border-red-300 focus:ring-red-200' 
@@ -385,6 +406,7 @@ const Register = () => {
                   name="confirmPassword"
                   value={formData.confirmPassword}
                   onChange={handleChange}
+                  autoComplete="new-password"
                   className={`w-full pl-10 pr-12 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-all ${
                     errors.confirmPassword 
                       ? 'border-red-300 focus:ring-red-200' 
@@ -431,6 +453,7 @@ const Register = () => {
               ইতিমধ্যে অ্যাকাউন্ট আছে?{' '}
               <Link
                 to="/login"
+                state={{ from: location.state?.from }}
                 className="text-indigo-600 hover:text-indigo-700 font-semibold inline-flex items-center gap-1"
               >
                 লগইন করুন

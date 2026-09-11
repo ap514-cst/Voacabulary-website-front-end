@@ -159,7 +159,7 @@ const Footer = () => {
             &copy; {currentYear} ভোকাবুলারি. সমস্ত অধিকার সংরক্ষিত।
           </p>
           <div>
-            <p className='text-cyan-600'><u><a href="">Develop by Apu Mojumder</a></u></p>
+            <p className='text-cyan-600'><u><a href="https://apomojumdersan.netlify.app/" target="_blank" rel="noopener noreferrer">Develop by Apu Mojumder</a></u></p>
           </div>
           <div className="flex flex-wrap justify-center gap-6">
             <Link to="/about" className="text-gray-400 hover:text-indigo-400 text-sm transition-colors flex items-center gap-1">
