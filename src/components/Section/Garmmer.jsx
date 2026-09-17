@@ -2,11 +2,11 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
-import { 
-  BookOpen, 
-  Clock, 
-  Calendar, 
-  ArrowRight, 
+import {
+  BookOpen,
+  Clock,
+  Calendar,
+  ArrowRight,
   CheckCircle,
   ChevronDown,
   ChevronUp,
@@ -269,13 +269,13 @@ const Grammar = () => {
 
   // Filter tenses
   const filteredTenses = tenses.filter(tense => {
-    const matchesSearch = 
+    const matchesSearch =
       tense.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       tense.bangla.includes(searchTerm) ||
       tense.usage.toLowerCase().includes(searchTerm.toLowerCase());
-    
+
     const matchesCategory = selectedCategory === 'all' || tense.category === selectedCategory;
-    
+
     return matchesSearch && matchesCategory;
   });
 
@@ -310,11 +310,14 @@ const Grammar = () => {
                 <Brain className="w-7 h-7 text-white" />
               </motion.div>
               <div>
-                <h1 className={`text-2xl md:text-3xl font-bold ${darkMode ? 'text-white' : 'text-gray-800'}`}>
-                  ইংরেজি গ্রামার
-                </h1>
+                <h2 className={`text-2xl md:text-3xl font-bold ${darkMode ? 'text-white' : 'text-gray-800'}`}>
+                  ইংরেজি গ্রামার সহজভাবে শিখুন
+                </h2>
                 <p className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                  সহজে শিখুন সব টেন্সেস
+                  English grammar-এর গুরুত্বপূর্ণ rules, examples এবং
+                  practical lessons শিখুন। Beginner থেকে advanced level
+                  পর্যন্ত grammar practice করে আপনার ইংরেজি লেখার ও
+                  বলার দক্ষতা উন্নত করুন।
                 </p>
               </div>
             </div>
@@ -328,20 +331,18 @@ const Grammar = () => {
                   placeholder="টেন্সেস খুঁজুন..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className={`pl-10 pr-4 py-2 text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 w-48 transition-colors ${
-                    darkMode 
-                      ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' 
+                  className={`pl-10 pr-4 py-2 text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 w-48 transition-colors ${darkMode
+                      ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
                       : 'bg-white border-gray-200 text-gray-900'
-                  }`}
+                    }`}
                 />
               </div>
 
               {/* Dark mode */}
               <button
                 onClick={() => setDarkMode(!darkMode)}
-                className={`p-2 rounded-lg transition-colors ${
-                  darkMode ? 'bg-yellow-500 text-gray-900' : 'bg-gray-800 text-yellow-400'
-                }`}
+                className={`p-2 rounded-lg transition-colors ${darkMode ? 'bg-yellow-500 text-gray-900' : 'bg-gray-800 text-yellow-400'
+                  }`}
               >
                 {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
               </button>
@@ -354,13 +355,12 @@ const Grammar = () => {
               <button
                 key={cat.id}
                 onClick={() => setSelectedCategory(cat.id)}
-                className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all flex items-center gap-2 ${
-                  selectedCategory === cat.id
+                className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all flex items-center gap-2 ${selectedCategory === cat.id
                     ? 'bg-indigo-600 text-white'
                     : darkMode
                       ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
+                  }`}
               >
                 <cat.icon className="w-4 h-4" />
                 {cat.name}
@@ -384,11 +384,10 @@ const Grammar = () => {
                 key={tense.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className={`rounded-2xl shadow-lg overflow-hidden border transition-all ${
-                  darkMode 
-                    ? 'bg-gray-800 border-gray-700 hover:shadow-2xl' 
+                className={`rounded-2xl shadow-lg overflow-hidden border transition-all ${darkMode
+                    ? 'bg-gray-800 border-gray-700 hover:shadow-2xl'
                     : 'bg-white border-gray-100 hover:shadow-2xl'
-                }`}
+                  }`}
               >
                 {/* Tense Header - Clickable */}
                 <button

@@ -1,83 +1,135 @@
-// src/components/SEO.jsx
-import React from 'react';
-import { Helmet } from 'react-helmet-async';
+import { Helmet } from "react-helmet-async";
 
-const SEO = ({
+const SITE_URL = "https://learnixdb.com";
+const SITE_NAME = "LearnixDB";
+
+function normalizeUrl(url) {
+  if (!url) return SITE_URL;
+
+  if (url.startsWith("http://") || url.startsWith("https://")) {
+    return url;
+  }
+
+  return `${SITE_URL}${url.startsWith("/") ? url : `/${url}`}`;
+}
+
+export default function SEO({
   title,
   description,
-  keywords,
-  canonicalUrl,
-  ogImage = 'https://learnixdb.netlify.app/Vicon.png',
-  ogType = 'website',
-  twitterCard = 'summary_large_image',
-  structuredData = null,
-  breadcrumbs = null,
+  keywords = [],
+  path = "/",
+  image = "/og-image.png",
+  type = "website",
   noindex = false,
-  author = 'LearnixDB',
-  language = 'bn',
-}) => {
-  const siteUrl = 'https://learnixdb.netlify.app';
-  const fullTitle = title ? `${title} | LearnixDB` : 'LearnixDB - Learn English, Russian & Chinese Vocabulary';
-  const fullUrl = canonicalUrl ? `${siteUrl}${canonicalUrl}` : siteUrl;
+  structuredData = null,
+}) {
+  const canonicalUrl = normalizeUrl(path);
+  const imageUrl = normalizeUrl(image);
 
-  // BreadcrumbList JSON-LD
-  const breadcrumbJsonLd = breadcrumbs
-    ? {
-        '@context': 'https://schema.org',
-        '@type': 'BreadcrumbList',
-        itemListElement: breadcrumbs.map((item, index) => ({
-          '@type': 'ListItem',
-          position: index + 1,
-          name: item.name,
-          item: `${siteUrl}${item.url}`,
-        })),
-      }
-    : null;
+  const fullTitle =
+    title === SITE_NAME
+      ? SITE_NAME
+      : `${title} | ${SITE_NAME}`;
+
+  const keywordContent = Array.isArray(keywords)
+    ? keywords.join(", ")
+    : keywords;
 
   return (
     <Helmet>
-      {/* Primary Meta Tags */}
-      <html lang={language} />
+      {/* Basic SEO */}
       <title>{fullTitle}</title>
-      <meta name="description" content={description} />
-      {keywords && <meta name="keywords" content={keywords} />}
-      <meta name="author" content={author} />
-      <meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large, max-snippet:-1'} />
-      
+
+      <meta
+        name="description"
+        content={description}
+      />
+
+      {keywordContent && (
+        <meta
+          name="keywords"
+          content={keywordContent}
+        />
+      )}
+
+      <meta
+        name="author"
+        content={SITE_NAME}
+      />
+
+      <meta
+        name="robots"
+        content={
+          noindex
+            ? "noindex, nofollow"
+            : "index, follow"
+        }
+      />
+
       {/* Canonical */}
-      <link rel="canonical" href={fullUrl} />
+      <link
+        rel="canonical"
+        href={canonicalUrl}
+      />
 
       {/* Open Graph */}
-      <meta property="og:type" content={ogType} />
-      <meta property="og:url" content={fullUrl} />
-      <meta property="og:title" content={fullTitle} />
-      <meta property="og:description" content={description} />
-      <meta property="og:image" content={ogImage} />
-      <meta property="og:site_name" content="LearnixDB" />
-      <meta property="og:locale" content="bn_BD" />
+      <meta
+        property="og:type"
+        content={type}
+      />
 
-      {/* Twitter Card */}
-      <meta name="twitter:card" content={twitterCard} />
-      <meta name="twitter:url" content={fullUrl} />
-      <meta name="twitter:title" content={fullTitle} />
-      <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content={ogImage} />
+      <meta
+        property="og:title"
+        content={fullTitle}
+      />
 
-      {/* JSON-LD Structured Data */}
+      <meta
+        property="og:description"
+        content={description}
+      />
+
+      <meta
+        property="og:url"
+        content={canonicalUrl}
+      />
+
+      <meta
+        property="og:site_name"
+        content={SITE_NAME}
+      />
+
+      <meta
+        property="og:image"
+        content={imageUrl}
+      />
+
+      {/* Twitter */}
+      <meta
+        name="twitter:card"
+        content="summary_large_image"
+      />
+
+      <meta
+        name="twitter:title"
+        content={fullTitle}
+      />
+
+      <meta
+        name="twitter:description"
+        content={description}
+      />
+
+      <meta
+        name="twitter:image"
+        content={imageUrl}
+      />
+
+      {/* JSON-LD */}
       {structuredData && (
         <script type="application/ld+json">
           {JSON.stringify(structuredData)}
         </script>
       )}
-
-      {/* BreadcrumbList JSON-LD */}
-      {breadcrumbJsonLd && (
-        <script type="application/ld+json">
-          {JSON.stringify(breadcrumbJsonLd)}
-        </script>
-      )}
     </Helmet>
   );
-};
-
-export default SEO;
+}

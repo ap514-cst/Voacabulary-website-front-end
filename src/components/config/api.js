@@ -1,10 +1,10 @@
 // src/config/api.js
 
 // ✅ Vite environment variables থেকে API URL নিন
-export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:2002/api';
-export const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || 'http://localhost:2002';
-export const AUDIO_URL = import.meta.env.VITE_AUDIO_URL || 'http://localhost:5000';
-export const APP_URL = import.meta.env.VITE_APP_URL || 'http://localhost:5173';
+export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL// || 'http://localhost:2002/api';
+export const SOCKET_URL = import.meta.env.VITE_SOCKET_URL //|| 'http://localhost:2002';
+export const AUDIO_URL = import.meta.env.VITE_AUDIO_URL// || 'http://localhost:5000';
+export const APP_URL = import.meta.env.VITE_APP_URL //|| 'http://localhost:5173';
 
 // ✅ Pre-built endpoints
 export const API_ENDPOINTS = {

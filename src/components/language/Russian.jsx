@@ -37,17 +37,37 @@ import {
 
 const ITEMS_PER_PAGE = 20;
 
-const SITE_URL = 'https://learnixdb.netlify.app';
-const RUSSIAN_PAGE_URL = '/russian-language';
+const SITE_URL = 'https://learnixdb.com';
+const RUSSIAN_PAGE_URL = '/language/russian';
 
 const SEO_TITLE =
-  'রুশ ভাষা শিখুন | Russian Language Vocabulary & Grammar';
+  'Russian Language শিখুন বাংলা অর্থ ও উচ্চারণসহ';
 
 const SEO_DESCRIPTION =
-  'Learn Russian language with Russian alphabet, vocabulary, common phrases, numbers, pronunciation, grammar, culture and interactive quizzes with English and Bangla meanings on LearnixDB.';
+  'Learn Russian language with Bangla meaning, Russian alphabet, vocabulary, common phrases, numbers, pronunciation, grammar, culture and interactive quizzes on LearnixDB.';
 
-const SEO_KEYWORDS =
-  'Russian language, Learn Russian, Russian vocabulary, Russian alphabet, Russian phrases, Russian grammar, Russian numbers, Russian pronunciation, Russian culture, Russian quiz, Russian words with Bangla meaning, রুশ ভাষা, রাশিয়ান ভাষা, রুশ শব্দ, রুশ ব্যাকরণ';
+const SEO_KEYWORDS = [
+  'Russian language',
+  'Learn Russian',
+  'Russian vocabulary',
+  'Russian vocabulary with Bangla meaning',
+  'Russian words with Bangla meaning',
+  'Russian alphabet',
+  'Russian phrases',
+  'Russian grammar',
+  'Russian numbers',
+  'Russian pronunciation',
+  'Russian culture',
+  'Russian quiz',
+  'Russian language learning',
+  'রুশ ভাষা শেখা',
+  'রুশ ভাষা',
+  'রুশ শব্দ',
+  'রুশ ভোকাবুলারি',
+  'রুশ বাংলা অর্থ',
+  'রুশ উচ্চারণ',
+  'রুশ ব্যাকরণ',
+];
 
 const normalize = (value) =>
   String(value ?? '')
@@ -100,6 +120,20 @@ const RussianLanguage = () => {
   // SEO Structured Data
   // ========================================
 
+  const breadcrumbs = useMemo(
+    () => [
+      {
+        name: 'Home',
+        url: '/',
+      },
+      {
+        name: 'Russian Language',
+        url: RUSSIAN_PAGE_URL,
+      },
+    ],
+    []
+  );
+
   const structuredData = useMemo(
     () => ({
       '@context': 'https://schema.org',
@@ -117,22 +151,17 @@ const RussianLanguage = () => {
         name: 'Russian Language Learning',
       },
       inLanguage: 'bn',
+      breadcrumb: {
+        '@type': 'BreadcrumbList',
+        itemListElement: breadcrumbs.map((item, index) => ({
+          '@type': 'ListItem',
+          position: index + 1,
+          name: item.name,
+          item: `${SITE_URL}${item.url}`,
+        })),
+      },
     }),
-    []
-  );
-
-  const breadcrumbs = useMemo(
-    () => [
-      {
-        name: 'Home',
-        url: '/',
-      },
-      {
-        name: 'Russian Language',
-        url: RUSSIAN_PAGE_URL,
-      },
-    ],
-    []
+    [breadcrumbs]
   );
 
   // ========================================
@@ -1158,14 +1187,14 @@ const RussianLanguage = () => {
       const percentage = Math.round(
         (quizScore /
           quizQuestions.length) *
-          100
+        100
       );
 
       const trophyClass =
         quizScore >=
-        Math.ceil(
-          quizQuestions.length * 0.8
-        )
+          Math.ceil(
+            quizQuestions.length * 0.8
+          )
           ? 'w-14 h-14 mx-auto mb-4 text-yellow-500'
           : 'w-14 h-14 mx-auto mb-4 text-gray-400';
 
@@ -1264,7 +1293,7 @@ const RussianLanguage = () => {
                     ) => {
                       const selected =
                         quizAnswers[
-                          question.id
+                        question.id
                         ] === option;
 
                       let optionClass = '';
@@ -1401,9 +1430,9 @@ const RussianLanguage = () => {
   const modalKey =
     modalType && modalId != null
       ? getBookmarkKey(
-          modalType,
-          modalId
-        )
+        modalType,
+        modalId
+      )
       : null;
 
   const modalWord =
@@ -1437,10 +1466,10 @@ const RussianLanguage = () => {
         title={SEO_TITLE}
         description={SEO_DESCRIPTION}
         keywords={SEO_KEYWORDS}
-        canonicalUrl={RUSSIAN_PAGE_URL}
+        path={RUSSIAN_PAGE_URL}
+        type="website"
+        image={`${SITE_URL}/Vicon.png`}
         structuredData={structuredData}
-        breadcrumbs={breadcrumbs}
-        language="bn"
       />
 
       {/* ================================== */}
@@ -1473,13 +1502,16 @@ const RussianLanguage = () => {
 
               <div className="min-w-0">
                 <h1 className="text-xl sm:text-2xl font-bold truncate">
-                  🇷🇺 রুশ ভাষা
+                  রুশ ভাষা শিখুন বাংলা অর্থ ও উচ্চারণসহ
                 </h1>
 
                 <p
                   className={`text-xs sm:text-sm ${mutedClass}`}
                 >
-                  সহজে শিখুন, প্রতিদিন অনুশীলন করুন
+                  Russian vocabulary বাংলা অর্থ, pronunciation এবং
+                  প্রয়োজনীয় examples সহ শিখুন। নতুনদের জন্য সহজ
+                  Russian language learning resources ব্যবহার করে
+                  ধীরে ধীরে vocabulary তৈরি করুন।
                 </p>
               </div>
             </div>
@@ -1576,6 +1608,54 @@ const RussianLanguage = () => {
       {/* ================================== */}
 
       <main className="max-w-6xl mx-auto px-4 py-6 sm:py-8">
+        <section className="mb-8">
+          <h2 className="text-2xl sm:text-3xl font-bold mb-3">
+            Russian Vocabulary, Alphabet ও Common Phrases বাংলা অর্থসহ
+          </h2>
+
+          <p className={`max-w-3xl leading-7 ${mutedClass}`}>
+            LearnixDB-তে সহজভাবে Russian ও রুশ ভাষা শিখুন। Russian
+            alphabet, vocabulary, common phrases, numbers, pronunciation,
+            grammar এবং Russian culture বাংলা ব্যাখ্যাসহ অনুশীলন করুন।
+            নতুনদের জন্য প্রয়োজনীয় Russian words ও দৈনন্দিন কথোপকথনের
+            বাক্য এক জায়গায় শিখে আপনার ভাষা দক্ষতা ধীরে ধীরে উন্নত করুন।
+          </p>
+
+          <div className="flex flex-wrap gap-x-4 gap-y-2 mt-4 text-sm">
+            <Link to="/" className="text-red-600 hover:underline">
+              LearnixDB Home
+            </Link>
+            <Link to="/voc" className="text-red-600 hover:underline">
+              English Vocabulary
+            </Link>
+            <Link to="/grammar" className="text-red-600 hover:underline">
+              English Grammar
+            </Link>
+            <Link to="/language/chinese" className="text-red-600 hover:underline">
+              Chinese Language
+            </Link>
+          </div>
+        </section>
+
+        <section
+          aria-labelledby="russian-learning-overview"
+          className="mb-8"
+        >
+          <h2
+            id="russian-learning-overview"
+            className="text-2xl sm:text-3xl font-bold mb-3"
+          >
+            Russian Language Learning: Alphabet, Vocabulary, Grammar ও Quiz
+          </h2>
+
+          <p className={`max-w-3xl leading-7 ${mutedClass}`}>
+            Russian vocabulary বাংলা অর্থসহ শেখার পাশাপাশি Russian
+            pronunciation শুনে অনুশীলন করুন। Russian alphabet থেকে শুরু
+            করে common phrases, numbers, grammar rules, culture facts এবং
+            interactive quiz ব্যবহার করে ধাপে ধাপে শেখার সুযোগ পাবেন।
+          </p>
+        </section>
+
         {renderTabContent()}
       </main>
 

@@ -37,14 +37,35 @@ import {
 
 const ITEMS_PER_PAGE = 20;
 
-const SITE_URL = "https://learnixdb.netlify.app";
+const SITE_URL = "https://learnixdb.com";
 
-const SEO_TITLE = "Chinese Language Learning";
+const SEO_TITLE =
+  "Chinese Language Learning with Bangla Meaning";
+
 const SEO_DESCRIPTION =
-  "Learn Chinese language with Chinese characters, Pinyin, common phrases, vocabulary, numbers, grammar, culture and interactive quizzes. Learn Mandarin Chinese with Bangla explanations on LearnixDB.";
+  "Learn Chinese and Mandarin with Bangla meaning, Chinese characters, Pinyin pronunciation, common phrases, vocabulary, numbers, grammar, culture and interactive quizzes on LearnixDB.";
 
-const SEO_KEYWORDS =
-  "learn Chinese, Chinese language, Mandarin Chinese, learn Mandarin, Chinese vocabulary, Chinese phrases, Chinese Pinyin, Chinese grammar, Chinese numbers, Chinese language with Bangla meaning, Chinese to Bangla, Mandarin Bangla";
+const SEO_KEYWORDS = [
+  "learn Chinese",
+  "learn Mandarin",
+  "Chinese language",
+  "Mandarin Chinese",
+  "Chinese vocabulary",
+  "Chinese vocabulary with Bangla meaning",
+  "Chinese meaning in Bangla",
+  "Chinese to Bangla",
+  "Chinese Pinyin",
+  "Chinese pronunciation",
+  "Chinese phrases",
+  "Chinese grammar",
+  "Chinese numbers",
+  "Chinese quiz",
+  "Chinese language learning",
+  "Mandarin Bangla",
+  "চাইনিজ ভাষা শেখা",
+  "চাইনিজ ভোকাবুলারি",
+  "চাইনিজ বাংলা অর্থ",
+];
 
 const ChineseLanguage = () => {
   const [darkMode, setDarkMode] = useState(false);
@@ -64,12 +85,24 @@ const ChineseLanguage = () => {
   // SEO STRUCTURED DATA
   // ======================================================
 
+  const breadcrumbs = [
+    {
+      name: "Home",
+      url: "/",
+    },
+    {
+      name: "Chinese Language",
+      url: "/language/chinese",
+    },
+  ];
+
+
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
     name: `${SEO_TITLE} | LearnixDB`,
     description: SEO_DESCRIPTION,
-    url: `${SITE_URL}/chinese`,
+    url: `${SITE_URL}/language/chinese`,
     inLanguage: "bn",
     isPartOf: {
       "@type": "WebSite",
@@ -79,6 +112,15 @@ const ChineseLanguage = () => {
     about: {
       "@type": "Thing",
       name: "Chinese Language Learning",
+    },
+    breadcrumb: {
+      "@type": "BreadcrumbList",
+      itemListElement: breadcrumbs.map((item, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: item.name,
+        item: `${SITE_URL}${item.url}`,
+      })),
     },
     mainEntity: {
       "@type": "EducationalOccupationalProgram",
@@ -95,17 +137,6 @@ const ChineseLanguage = () => {
       ],
     },
   };
-
-  const breadcrumbs = [
-    {
-      name: "Home",
-      url: "/",
-    },
-    {
-      name: "Chinese Language",
-      url: "/chinese",
-    },
-  ];
 
   // ======================================================
   // LOAD BOOKMARKS
@@ -1002,8 +1033,8 @@ const ChineseLanguage = () => {
 
         {paginatedNumbers.items
           .length === 0 && (
-          <EmptyState />
-        )}
+            <EmptyState />
+          )}
 
         <Pagination
           page={paginatedNumbers.page}
@@ -1050,25 +1081,25 @@ const ChineseLanguage = () => {
             {Array.isArray(
               grammar.rules
             ) && (
-              <ul className="mt-4 space-y-2">
-                {grammar.rules.map(
-                  (rule, index) => (
-                    <li
-                      key={index}
-                      className={
-                        darkMode
-                          ? "flex items-start gap-2 text-sm text-gray-300"
-                          : "flex items-start gap-2 text-sm text-gray-700"
-                      }
-                    >
-                      <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 shrink-0" />
+                <ul className="mt-4 space-y-2">
+                  {grammar.rules.map(
+                    (rule, index) => (
+                      <li
+                        key={index}
+                        className={
+                          darkMode
+                            ? "flex items-start gap-2 text-sm text-gray-300"
+                            : "flex items-start gap-2 text-sm text-gray-700"
+                        }
+                      >
+                        <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 shrink-0" />
 
-                      <span>{rule}</span>
-                    </li>
-                  )
-                )}
-              </ul>
-            )}
+                        <span>{rule}</span>
+                      </li>
+                    )
+                  )}
+                </ul>
+              )}
           </motion.article>
         ))}
 
@@ -1131,10 +1162,10 @@ const ChineseLanguage = () => {
       const percentage =
         quizQuestions.length > 0
           ? Math.round(
-              (quizScore /
-                quizQuestions.length) *
-                100
-            )
+            (quizScore /
+              quizQuestions.length) *
+            100
+          )
           : 0;
 
       return (
@@ -1144,10 +1175,10 @@ const ChineseLanguage = () => {
           <Trophy
             className={
               quizScore >=
-              Math.ceil(
-                quizQuestions.length *
+                Math.ceil(
+                  quizQuestions.length *
                   0.8
-              )
+                )
                 ? "w-14 h-14 mx-auto mb-4 text-yellow-500"
                 : "w-14 h-14 mx-auto mb-4 text-gray-400"
             }
@@ -1217,7 +1248,7 @@ const ChineseLanguage = () => {
                   (option) => {
                     const selected =
                       quizAnswers[
-                        question.id
+                      question.id
                       ] === option;
 
                     return (
@@ -1316,18 +1347,18 @@ const ChineseLanguage = () => {
 
   const modalKey = selectedItem
     ? getBookmarkKey(
-        modalType,
-        selectedItem.id
-      )
+      modalType,
+      selectedItem.id
+    )
     : null;
 
   const modalWord = selectedItem
     ? selectedItem.chinese ||
-      selectedItem.letter ||
-      selectedItem.word ||
-      (selectedItem.number != null
-        ? String(selectedItem.number)
-        : "")
+    selectedItem.letter ||
+    selectedItem.word ||
+    (selectedItem.number != null
+      ? String(selectedItem.number)
+      : "")
     : "";
 
   // ======================================================
@@ -1346,15 +1377,16 @@ const ChineseLanguage = () => {
           SEO
       ================================================== */}
 
-      <SEO
+      
+        <SEO
         title={SEO_TITLE}
         description={SEO_DESCRIPTION}
         keywords={SEO_KEYWORDS}
-        canonicalUrl="/chinese"
-        ogType="website"
-        language="bn"
+        path="/language/chinese"
+        type="website"
+        image={`${SITE_URL}/Vicon.png`}
         structuredData={structuredData}
-        breadcrumbs={breadcrumbs}
+    
       />
 
       {/* ==================================================
@@ -1384,14 +1416,17 @@ const ChineseLanguage = () => {
               </Link>
 
               <div className="min-w-0">
-                <h1 className="text-xl sm:text-2xl font-bold truncate">
-                  🇨🇳 Chinese Language
-                </h1>
+                <h2 className="text-xl sm:text-2xl font-bold truncate">
+                  চাইনিজ ভাষার ভোকাবুলারি শিখুন
+                </h2>
 
                 <p
                   className={`text-xs sm:text-sm ${mutedClass}`}
                 >
-                  সহজে Mandarin Chinese শিখুন
+                  Chinese vocabulary বাংলা অর্থ ও pronunciation সহ
+                  শিখুন। গুরুত্বপূর্ণ Chinese words এবং language
+                  learning resources ব্যবহার করে আপনার Mandarin
+                  vocabulary উন্নত করুন।
                 </p>
               </div>
             </div>
@@ -1485,6 +1520,58 @@ const ChineseLanguage = () => {
       ================================================== */}
 
       <main className="max-w-6xl mx-auto px-4 py-6 sm:py-8">
+        <section className="mb-8">
+          <h1 className="text-3xl sm:text-4xl font-bold mb-3">
+            চাইনিজ ভাষা শিখুন বাংলা অর্থ ও উচ্চারণসহ
+          </h1>
+
+          <p className={`max-w-3xl leading-7 ${mutedClass}`}>
+            LearnixDB-তে সহজভাবে Chinese ও Mandarin ভাষা শিখুন। Chinese
+            characters, Pinyin pronunciation, vocabulary, common phrases,
+            numbers, grammar এবং interactive quiz বাংলা ব্যাখ্যাসহ অনুশীলন
+            করতে পারবেন। নতুনদের জন্য প্রয়োজনীয় Chinese words ও দৈনন্দিন
+            কথোপকথনের বাক্য এক জায়গায় শিখে আপনার ভাষা দক্ষতা উন্নত করুন।
+          </p>
+
+          <div className="flex flex-wrap gap-x-4 gap-y-2 mt-4 text-sm">
+            <Link
+              to="/"
+              className="text-red-600 hover:underline"
+            >
+              LearnixDB Home
+            </Link>
+            <Link
+              to="/voc"
+              className="text-red-600 hover:underline"
+            >
+              English Vocabulary
+            </Link>
+            <Link
+              to="/grammar"
+              className="text-red-600 hover:underline"
+            >
+              English Grammar
+            </Link>
+          </div>
+        </section>
+
+        <section aria-labelledby="chinese-learning-overview" className="mb-8">
+          <h2
+            id="chinese-learning-overview"
+            className="text-2xl sm:text-3xl font-bold mb-3"
+          >
+            Chinese Vocabulary, Pinyin ও Common Phrases শিখুন
+          </h2>
+
+          <p className={`max-w-3xl leading-7 ${mutedClass}`}>
+            Chinese vocabulary বাংলা অর্থসহ শেখার পাশাপাশি Pinyin দেখে সঠিক
+            pronunciation অনুশীলন করুন। গুরুত্বপূর্ণ Chinese phrases, numbers,
+            grammar rules এবং Chinese culture সম্পর্কে জানুন। প্রতিটি শব্দ
+            শুনে pronunciation practice করতে এবং quiz দিয়ে নিজের শেখা যাচাই
+            করতে পারবেন।
+          </p>
+        </section>
+
         {renderTabContent()}
       </main>
 

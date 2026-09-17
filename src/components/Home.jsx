@@ -122,12 +122,27 @@ const Home = () => {
       <SEO
         title="Learn English, Russian & Chinese Vocabulary with Bangla Meaning"
         description="Learn English, Russian and Chinese vocabulary with Bangla meanings, pronunciation, examples, quizzes and grammar lessons. Learn vocabulary online for free with LearnixDB."
-        keywords="English vocabulary, English meaning in Bangla, English to Bangla vocabulary, Bangla vocabulary, Russian vocabulary, Chinese vocabulary, learn English, learn Russian, learn Chinese, English grammar, vocabulary quiz"
-        canonicalUrl="/"
-        ogType="website"
-        ogImage={`${SITE_URL}/Vicon.png`}
+        keywords={[
+          "English vocabulary",
+          "English meaning in Bangla",
+          "English to Bangla vocabulary",
+          "Bangla vocabulary",
+          "English grammar",
+          "English vocabulary quiz",
+          "learn English online",
+          "Russian vocabulary",
+          "Russian meaning in Bangla",
+          "learn Russian",
+          "Chinese vocabulary",
+          "Chinese meaning in Bangla",
+          "learn Chinese",
+          "language learning",
+          "vocabulary learning",
+        ]}
+        path="/"
+        type="website"
+        image={`${SITE_URL}/Vicon.png`}
         structuredData={structuredData}
-        language="bn"
       />
 
       {/* =====================================================
@@ -167,16 +182,16 @@ const Home = () => {
               id="hero-heading"
               className="text-5xl md:text-6xl font-bold text-gray-900 mb-6"
             >
-              আপনার ভাষা দক্ষতা
+              ইংরেজি, রুশ ও চাইনিজ ভাষা শিখুন
               <span className="text-indigo-600 block mt-2">
-                উন্নত করুন
+                বাংলা অর্থসহ
               </span>
             </h1>
 
             <p className="text-xl text-gray-600 mb-10 max-w-2xl mx-auto">
-              ইন্টারেক্টিভ ভোকাবুলারি লেসন, কুইজ এবং ট্র্যাকিং-এর
-              মাধ্যমে ইংরেজি, রুশ এবং চাইনিজ শব্দভান্ডার শেখার
-              আধুনিক পদ্ধতি।
+              LearnixDB-এর মাধ্যমে ইংরেজি, রুশ ও চাইনিজ ভাষার
+              vocabulary, grammar, pronunciation, quiz এবং
+              learning resources বাংলা অর্থসহ শিখুন।
             </p>
 
             <div className="flex flex-wrap gap-4 justify-center">
