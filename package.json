@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "npm run build:ssr",
+    "build": "vite build",
     "build:client": "vite build --outDir dist/client",
     "build:server": "vite build --ssr src/entry-server.jsx --outDir dist/server",
     "build:ssr": "npm run build:client && npm run build:server",
@@ -30,6 +30,7 @@
     "uninstall": "^0.0.0"
   },
   "devDependencies": {
+    "@cloudflare/vite-plugin": "^1.54.11",
     "@eslint/js": "^10.0.0",
     "@tailwindcss/vite": "^4.3.1",
     "@types/react": "^19.2.14",

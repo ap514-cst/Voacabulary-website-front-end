@@ -6,7 +6,7 @@
 
   <!-- হোম পেজ (সর্বোচ্চ প্রায়োরিটি) -->
   <url>
-    <loc>https://learnixdb.netlify.app/</loc>
+    <loc>https://learnxbd.com/</loc>
     <lastmod>2026-07-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
@@ -14,7 +14,7 @@
 
   <!-- লগইন পেজ -->
   <url>
-    <loc>https://learnixdb.netlify.app/login</loc>
+    <loc>https://learnxbd.com/login</loc>
     <lastmod>2026-07-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -22,7 +22,7 @@
 
   <!-- রেজিস্টার পেজ -->
   <url>
-    <loc>https://learnixdb.netlify.app/register</loc>
+    <loc>https://learnxbd.com/register</loc>
     <lastmod>2026-07-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -30,7 +30,7 @@
 
   <!-- শুরু করুন পেজ -->
   <url>
-    <loc>https://learnixdb.netlify.app/start</loc>
+    <loc>https://learnxbd.com/start</loc>
     <lastmod>2026-07-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
@@ -38,7 +38,7 @@
 
   <!-- বেসিক লেভেল -->
   <url>
-    <loc>https://learnixdb.netlify.app/basic</loc>
+    <loc>https://learnxbd.com/basic</loc>
     <lastmod>2026-07-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -46,7 +46,7 @@
 
   <!-- ইন্টারমিডিয়েট লেভেল -->
   <url>
-    <loc>https://learnixdb.netlify.app/inter</loc>
+    <loc>https://learnxbd.com/inter</loc>
     <lastmod>2026-07-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -54,7 +54,7 @@
 
   <!-- অ্যাডভান্সড লেভেল -->
   <url>
-    <loc>https://learnixdb.netlify.app/advanced</loc>
+    <loc>https://learnxbd.com/advanced</loc>
     <lastmod>2026-07-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -62,7 +62,7 @@
 
   <!-- ভোকাবুলারি লিস্ট -->
   <url>
-    <loc>https://learnixdb.netlify.app/voc</loc>
+    <loc>https://learnxbd.com/voc</loc>
     <lastmod>2026-07-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
@@ -70,7 +70,7 @@
 
   <!-- কুইজ পেজ -->
   <url>
-    <loc>https://learnixdb.netlify.app/quiz</loc>
+    <loc>https://learnxbd.com/quiz</loc>
     <lastmod>2026-07-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -78,7 +78,7 @@
 
   <!-- ফ্রেজ পেজ -->
   <url>
-    <loc>https://learnixdb.netlify.app/phrases</loc>
+    <loc>https://learnxbd.com/phrases</loc>
     <lastmod>2026-07-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -86,7 +86,7 @@
 
   <!-- সংখ্যা পেজ -->
   <url>
-    <loc>https://learnixdb.netlify.app/numbers</loc>
+    <loc>https://learnxbd.com/numbers</loc>
     <lastmod>2026-07-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -94,7 +94,7 @@
 
   <!-- গ্রামার পেজ -->
   <url>
-    <loc>https://learnixdb.netlify.app/grammar</loc>
+    <loc>https://learnxbd.com/grammar</loc>
     <lastmod>2026-07-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -102,7 +102,7 @@
 
   <!-- কিডস কর্নার -->
   <url>
-    <loc>https://learnixdb.netlify.app/kids</loc>
+    <loc>https://learnxbd.com/kids</loc>
     <lastmod>2026-07-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -110,7 +110,7 @@
 
   <!-- অ্যালফাবেট সাউন্ড -->
   <url>
-    <loc>https://learnixdb.netlify.app/alphabet</loc>
+    <loc>https://learnxbd.com/alphabet</loc>
     <lastmod>2026-07-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -118,7 +118,7 @@
 
   <!-- ইরেগুলার ভার্ব -->
   <url>
-    <loc>https://learnixdb.netlify.app/irregular</loc>
+    <loc>https://learnxbd.com/irregular</loc>
     <lastmod>2026-07-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -126,7 +126,7 @@
 
   <!-- রুশ ভাষা -->
   <url>
-    <loc>https://learnixdb.netlify.app/language/russian</loc>
+    <loc>https://learnxbd.com/language/russian</loc>
     <lastmod>2026-07-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -134,7 +134,7 @@
 
   <!-- চাইনিজ ভাষা -->
   <url>
-    <loc>https://learnixdb.netlify.app/language/chinese</loc>
+    <loc>https://learnxbd.com/language/chinese</loc>
     <lastmod>2026-07-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -142,7 +142,7 @@
 
   <!-- আমাদের সম্পর্কে -->
   <url>
-    <loc>https://learnixdb.netlify.app/about</loc>
+    <loc>https://learnxbd.com/about</loc>
     <lastmod>2026-07-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -150,7 +150,7 @@
 
   <!-- যোগাযোগ -->
   <url>
-    <loc>https://learnixdb.netlify.app/contact</loc>
+    <loc>https://learnxbd.com/contact</loc>
     <lastmod>2026-07-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -158,7 +158,7 @@
 
   <!-- গোপনীয়তা নীতি -->
   <url>
-    <loc>https://learnixdb.netlify.app/privacy</loc>
+    <loc>https://learnxbd.com/privacy</loc>
     <lastmod>2026-07-01</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
@@ -166,7 +166,7 @@
 
   <!-- শর্তাবলী -->
   <url>
-    <loc>https://learnixdb.netlify.app/terms</loc>
+    <loc>https://learnxbd.com/terms</loc>
     <lastmod>2026-07-01</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
